@@ -1,0 +1,22 @@
+[
+  {
+    "largeCategory": "한식",
+    "smallCategory": ["김밥", "김치찌개", "제육덮밥"]
+  },
+  {
+    "largeCategory": "중식",
+    "smallCategory": ["짜장면", "짬뽕", "탕수육"]
+  },
+  {
+    "largeCategory": "일식",
+    "smallCategory": ["돈까스", "초밥", "냉모밀"]
+  },
+  {
+    "largeCategory": "패스트푸드",
+    "smallCategory": ["치킨", "피자", "햄버거"]
+  },
+  {
+    "largeCategory": "디저트",
+    "smallCategory": ["아메리카노", "까페라떼", "조각케이크"]
+  }
+]
