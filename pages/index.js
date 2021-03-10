@@ -1,7 +1,12 @@
 import React from 'react'
+import Simulation from '../components/Simulation'
 
 const index = () => {
-  return <div>Hello, World!</div>
+  return (
+    <>
+      <Simulation />
+    </>
+  )
 }
 
 export default index
