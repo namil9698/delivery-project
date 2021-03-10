@@ -1,0 +1,21 @@
+{
+  "name": "delivery-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/namil9698/delivery-project.git",
+  "author": "송남일 <spdlqjtkdydwnd@naver.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next -p 8080",
+    "clean": "rm -rf dist",
+    "build": "next build",
+    "start": "next start -p 8081"
+  },
+  "dependencies": {
+    "next": "^10.0.8",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "styled-components": "^5.2.1"
+  }
+}
