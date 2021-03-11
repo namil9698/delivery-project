@@ -1,22 +1,77 @@
 [
   {
+    "id": 1,
     "largeCategory": "한식",
-    "smallCategory": ["김밥", "김치찌개", "제육덮밥"]
+    "smallCategory": [
+      {
+        "name": "김밥"
+      },
+      {
+        "name": "된장찌개"
+      },
+      {
+        "name": "제육덮밥"
+      }
+    ]
   },
   {
+    "id": 2,
     "largeCategory": "중식",
-    "smallCategory": ["짜장면", "짬뽕", "탕수육"]
+    "smallCategory": [
+      {
+        "name": "짜장면"
+      },
+      {
+        "name": "짬뽕"
+      },
+      {
+        "name": "탕수육"
+      }
+    ]
   },
   {
+    "id": 3,
     "largeCategory": "일식",
-    "smallCategory": ["돈까스", "초밥", "냉모밀"]
+    "smallCategory": [
+      {
+        "name": "돈까스"
+      },
+      {
+        "name": "초밥"
+      },
+      {
+        "name": "냉모밀"
+      }
+    ]
   },
   {
+    "id": 4,
     "largeCategory": "패스트푸드",
-    "smallCategory": ["치킨", "피자", "햄버거"]
+    "smallCategory": [
+      {
+        "name": "피자"
+      },
+      {
+        "name": "치킨"
+      },
+      {
+        "name": "햄버거"
+      }
+    ]
   },
   {
+    "id": 5,
     "largeCategory": "디저트",
-    "smallCategory": ["아메리카노", "까페라떼", "조각케이크"]
+    "smallCategory": [
+      {
+        "name": "아메리카노"
+      },
+      {
+        "name": "까페라떼"
+      },
+      {
+        "name": "조각케이크"
+      }
+    ]
   }
 ]

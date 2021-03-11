@@ -5,25 +5,31 @@ import FoodData from './datas/food_data.json';
 const Simulation = () => {
   const [largeCategory, setLargeCategory] = useState(0);
   const [smallCategory, setSmallCategory] = useState(0);
+
+  const RenderFoodList = () => {
+    let [myFoodList] = FoodData.filter(item => item.id === largeCategory);
+    return myFoodList.smallCategory.map(myFood => (
+      <FoodCategoryItem>{myFood.name}</FoodCategoryItem>
+    ));
+  };
+
   return (
     <SimulationWrapper>
       <FoodCategory>
         <FoodCategoryList>
-          {FoodData.map((item, index) => (
+          {FoodData.map(item => (
             <FoodCategoryItem
-              key={index + 1}
+              key={item.id}
               onClick={() => {
-                setLargeCategory(index + 1);
+                setLargeCategory(item.id);
               }}
-              active={index + 1 === largeCategory}
+              active={item.id === largeCategory}
             >
               {item.largeCategory}
             </FoodCategoryItem>
           ))}
         </FoodCategoryList>
-        <FoodCategoryList>
-          <FoodCategoryItem>d</FoodCategoryItem>
-        </FoodCategoryList>
+        <FoodCategoryList>{RenderFoodList()}</FoodCategoryList>
       </FoodCategory>
       <Order>
         <OrderList></OrderList>
@@ -35,6 +41,8 @@ const Simulation = () => {
 export default Simulation;
 
 const SimulationWrapper = styled.div``;
+
+//Food
 const FoodCategory = styled.div``;
 const FoodCategoryList = styled.ul`
   display: flex;
@@ -50,5 +58,9 @@ const FoodCategoryItem = styled.li`
     `}
 `;
 
+//Order
 const Order = styled.div``;
-const OrderList = styled.div``;
+const OrderList = styled.div`
+  display: flex;
+`;
+const OrderItem = styled.div``;
