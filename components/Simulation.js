@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
 
@@ -13,7 +13,10 @@ const Simulation = () => {
     const [myFoodList] = FoodData.filter(item => item.id === focusCategory);
     if (myFoodList) {
       return myFoodList.food.map(myFood => (
-        <FoodItem active={false} onClick={() => onSelectFood(myFood)}>
+        <FoodItem
+          active={selectMyFood.find(food => food === myFood)}
+          onClick={() => onSelectFood(myFood)}
+        >
           {myFood.name}
         </FoodItem>
       ));
@@ -21,12 +24,19 @@ const Simulation = () => {
     }
   };
 
-  //선택한 음식 저장.
-  const onSelectFood = myFood => {
-    setSelectMyFood([...selectMyFood, myFood]);
-
-    return console.log(selectMyFood);
-  };
+  //선택 음식 리스트 랜더 (자신이 선택한 음식들의 리스트들을 랜더)
+  const onSelectFood = useCallback(
+    myFood => {
+      let isThere = selectMyFood.find(food => food === myFood);
+      if (isThere) {
+        setSelectMyFood(selectMyFood.filter(food => food !== isThere));
+      } else {
+        setSelectMyFood([...selectMyFood, myFood]);
+        console.log(selectMyFood);
+      }
+    },
+    [selectMyFood]
+  );
 
   return (
     <SimulationWrapper>
@@ -47,7 +57,11 @@ const Simulation = () => {
         <FoodList>{RenderFoodList()}</FoodList>
       </Menu>
       <Order>
-        <OrderList></OrderList>
+        <OrderList>
+          {selectMyFood.map(food => (
+            <OrderItem>{food.name}</OrderItem>
+          ))}
+        </OrderList>
       </Order>
     </SimulationWrapper>
   );
@@ -89,7 +103,11 @@ const FoodItem = styled.li`
 
 //Order
 const Order = styled.div``;
-const OrderList = styled.div`
-  display: flex;
-`;
+const OrderList = styled.div``;
 const OrderItem = styled.div``;
+
+//button
+const DeleteBtn = styled.div``;
+const ControlBtn = styled.div``;
+const AddBtn = styled.div``;
+const SubBtn = styled.div``;
