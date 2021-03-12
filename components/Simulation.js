@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
 
@@ -9,13 +9,15 @@ const Simulation = () => {
   const [selectMyFood, setSelectMyFood] = useState([]);
 
   //음식 리스트 랜더 (선택한 종류의 음식 리스트를 랜더)
-  const RenderFoodList = () => {
+  const renderFoodList = () => {
     const [myFoodList] = FoodData.filter(item => item.id === focusCategory);
     if (myFoodList) {
+      console.log(selectMyFood);
       return myFoodList.food.map(myFood => (
         <FoodItem
-          active={selectMyFood.find(food => food === myFood)}
-          onClick={() => onSelectFood(myFood)}
+          key={myFood.id}
+          active={selectMyFood.find(food => food.id === myFood.id)}
+          onClick={() => CreateMyFoodList(myFood)}
         >
           {myFood.name}
         </FoodItem>
@@ -24,19 +26,38 @@ const Simulation = () => {
     }
   };
 
-  //선택 음식 리스트 랜더 (자신이 선택한 음식들의 리스트들을 랜더)
-  const onSelectFood = useCallback(
-    myFood => {
-      let isThere = selectMyFood.find(food => food === myFood);
-      if (isThere) {
-        setSelectMyFood(selectMyFood.filter(food => food !== isThere));
-      } else {
-        setSelectMyFood([...selectMyFood, myFood]);
-        console.log(selectMyFood);
-      }
-    },
-    [selectMyFood]
-  );
+  //선택 음식 리스트 저장 (자신이 선택한 음식들의 리스트들을 저장)
+  const CreateMyFoodList = myFood => {
+    let isThere = selectMyFood.find(food => food.id === myFood.id);
+    if (isThere) {
+      setSelectMyFood(selectMyFood.filter(food => food.id !== isThere.id));
+    } else {
+      setSelectMyFood([...selectMyFood, { ...myFood, qty: 1 }]);
+    }
+  };
+
+  //선택 음식 리스트에서 삭제
+  const onDelete = deleteFood => {
+    setSelectMyFood(selectMyFood.filter(food => food !== deleteFood));
+  };
+
+  //선택 음식의 수량 증가
+  const onAdd = ChangeFood => {
+    let changeQty = ChangeFood.qty + 1;
+    setSelectMyFood(
+      selectMyFood.map(food => (food.id === ChangeFood.id ? { ...food, qty: changeQty } : food))
+    );
+  };
+
+  //선택 음식의 수량 감소
+  const onSub = ChangeFood => {
+    if (ChangeFood.qty > 1) {
+      let changeQty = ChangeFood.qty - 1;
+      setSelectMyFood(
+        selectMyFood.map(food => (food.id === ChangeFood.id ? { ...food, qty: changeQty } : food))
+      );
+    }
+  };
 
   return (
     <SimulationWrapper>
@@ -54,12 +75,20 @@ const Simulation = () => {
             </CategoryItem>
           ))}
         </CategoryList>
-        <FoodList>{RenderFoodList()}</FoodList>
+        <FoodList>{renderFoodList()}</FoodList>
       </Menu>
       <Order>
         <OrderList>
           {selectMyFood.map(food => (
-            <OrderItem>{food.name}</OrderItem>
+            <OrderItem>
+              <p>{food.name}</p>
+              <span>x{food.qty}</span>
+              <ControlBtn>
+                <AddBtn onClick={() => onAdd(food)}>+</AddBtn>
+                <SubBtn onClick={() => onSub(food)}>-</SubBtn>
+                <DeleteBtn onClick={() => onDelete(food)}>삭제</DeleteBtn>
+              </ControlBtn>
+            </OrderItem>
           ))}
         </OrderList>
       </Order>
@@ -97,17 +126,31 @@ const FoodItem = styled.li`
   ${props =>
     props.active &&
     css`
-      color: red;
+      color: blue;
     `}
 `;
 
 //Order
 const Order = styled.div``;
 const OrderList = styled.div``;
-const OrderItem = styled.div``;
+const OrderItem = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
 
 //button
-const DeleteBtn = styled.div``;
-const ControlBtn = styled.div``;
-const AddBtn = styled.div``;
-const SubBtn = styled.div``;
+const ControlBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+`;
+const DeleteBtn = styled.div`
+  cursor: pointer;
+`;
+const AddBtn = styled.div`
+  cursor: pointer;
+`;
+const SubBtn = styled.div`
+  cursor: pointer;
+`;
