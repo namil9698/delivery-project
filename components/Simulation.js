@@ -1,3 +1,4 @@
+import { array } from 'prop-types';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
@@ -17,7 +18,7 @@ const Simulation = () => {
         <FoodItem
           key={myFood.id}
           active={selectMyFood.find(food => food.id === myFood.id)}
-          onClick={() => CreateMyFoodList(myFood)}
+          onClick={() => createMyFoodList(myFood)}
         >
           {myFood.name}
         </FoodItem>
@@ -27,7 +28,7 @@ const Simulation = () => {
   };
 
   //선택 음식 리스트 저장 (자신이 선택한 음식들의 리스트들을 저장)
-  const CreateMyFoodList = myFood => {
+  const createMyFoodList = myFood => {
     let isThere = selectMyFood.find(food => food.id === myFood.id);
     if (isThere) {
       setSelectMyFood(selectMyFood.filter(food => food.id !== isThere.id));
@@ -57,6 +58,15 @@ const Simulation = () => {
         selectMyFood.map(food => (food.id === ChangeFood.id ? { ...food, qty: changeQty } : food))
       );
     }
+  };
+
+  //선택 음식 리스트 이미지 미리보기.
+  const renderMyFoodImage = () => {
+    return selectMyFood.map(food =>
+      [...Array(food.qty)].map(() => {
+        return <MyFood>{food.name}</MyFood>;
+      })
+    );
   };
 
   return (
@@ -92,6 +102,9 @@ const Simulation = () => {
           ))}
         </OrderList>
       </Order>
+      <Preview>
+        <PreviewMyFood>{renderMyFoodImage()}</PreviewMyFood>
+      </Preview>
     </SimulationWrapper>
   );
 };
@@ -153,4 +166,18 @@ const AddBtn = styled.div`
 `;
 const SubBtn = styled.div`
   cursor: pointer;
+`;
+
+//Preview
+const Preview = styled.div``;
+const PreviewMyFood = styled.div`
+  display: flex;
+`;
+const MyFood = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
 `;
