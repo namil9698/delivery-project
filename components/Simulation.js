@@ -2,8 +2,13 @@ import { array } from 'prop-types';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
+import { useSelector, useDispatch } from 'react-redux';
+import { chageMyFoodList, deleteMyFood, addMyFood, subMyFood } from '../redux/reducers';
 
 const Simulation = () => {
+  const dispatch = useDispatch();
+  const myFoodList = useSelector(state => state.simulation.myFoodList);
+
   ///선택한 종류
   const [focusCategory, setFocusCategory] = useState(0);
   // 선택한 음식 리스트
@@ -11,16 +16,15 @@ const Simulation = () => {
 
   //음식 리스트 랜더 (선택한 종류의 음식 리스트를 랜더)
   const renderFoodList = () => {
-    const [myFoodList] = FoodData.filter(item => item.id === focusCategory);
-    if (myFoodList) {
-      console.log(selectMyFood);
-      return myFoodList.food.map(myFood => (
+    const [selectFoodList] = FoodData.filter(item => item.id === focusCategory);
+    if (selectFoodList) {
+      return selectFoodList.food.map(Food => (
         <FoodItem
-          key={myFood.id}
-          active={selectMyFood.find(food => food.id === myFood.id)}
-          onClick={() => createMyFoodList(myFood)}
+          key={Food.id}
+          active={myFoodList.find(myfood => myfood.id === Food.id)}
+          onClick={() => createMyFoodList(Food)}
         >
-          {myFood.name}
+          {Food.name}
         </FoodItem>
       ));
     } else {
@@ -29,40 +33,34 @@ const Simulation = () => {
 
   //선택 음식 리스트 저장 (자신이 선택한 음식들의 리스트들을 저장)
   const createMyFoodList = myFood => {
-    let isThere = selectMyFood.find(food => food.id === myFood.id);
+    let isThere = myFoodList.find(food => food.id === myFood.id);
     if (isThere) {
-      setSelectMyFood(selectMyFood.filter(food => food.id !== isThere.id));
+      dispatch(deleteMyFood(isThere));
     } else {
-      setSelectMyFood([...selectMyFood, { ...myFood, qty: 1 }]);
+      dispatch(chageMyFoodList(myFood));
     }
   };
 
   //선택 음식 리스트에서 삭제
   const onDelete = deleteFood => {
-    setSelectMyFood(selectMyFood.filter(food => food !== deleteFood));
+    dispatch(deleteMyFood(deleteFood));
   };
 
   //선택 음식의 수량 증가
-  const onAdd = ChangeFood => {
-    let changeQty = ChangeFood.qty + 1;
-    setSelectMyFood(
-      selectMyFood.map(food => (food.id === ChangeFood.id ? { ...food, qty: changeQty } : food))
-    );
+  const onAdd = changeFood => {
+    dispatch(addMyFood(changeFood));
   };
 
   //선택 음식의 수량 감소
-  const onSub = ChangeFood => {
-    if (ChangeFood.qty > 1) {
-      let changeQty = ChangeFood.qty - 1;
-      setSelectMyFood(
-        selectMyFood.map(food => (food.id === ChangeFood.id ? { ...food, qty: changeQty } : food))
-      );
+  const onSub = changeFood => {
+    if (changeFood.qty > 1) {
+      dispatch(subMyFood(changeFood));
     }
   };
 
   //선택 음식 리스트 이미지 미리보기.
   const renderMyFoodImage = () => {
-    return selectMyFood.map(food =>
+    return myFoodList.map(food =>
       [...Array(food.qty)].map(() => {
         return <MyFood>{food.name}</MyFood>;
       })
@@ -89,7 +87,7 @@ const Simulation = () => {
       </Menu>
       <Order>
         <OrderList>
-          {selectMyFood.map(food => (
+          {myFoodList.map(food => (
             <OrderItem>
               <p>{food.name}</p>
               <span>x{food.qty}</span>
