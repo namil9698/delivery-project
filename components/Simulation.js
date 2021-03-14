@@ -1,18 +1,17 @@
-import { array } from 'prop-types';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
 import { useSelector, useDispatch } from 'react-redux';
-import { chageMyFoodList, deleteMyFood, addMyFood, subMyFood } from '../redux/reducers';
+import { chageMyFoodList, deleteMyFood, addMyFood, subMyFood } from '../redux/reducers/simulation';
 
 const Simulation = () => {
   const dispatch = useDispatch();
+
   const myFoodList = useSelector(state => state.simulation.myFoodList);
+  console.log(myFoodList);
 
   ///선택한 종류
   const [focusCategory, setFocusCategory] = useState(0);
-  // 선택한 음식 리스트
-  const [selectMyFood, setSelectMyFood] = useState([]);
 
   //음식 리스트 랜더 (선택한 종류의 음식 리스트를 랜더)
   const renderFoodList = () => {
@@ -42,30 +41,47 @@ const Simulation = () => {
   };
 
   //선택 음식 리스트에서 삭제
-  const onDelete = deleteFood => {
-    dispatch(deleteMyFood(deleteFood));
-  };
+  const onDelete = useCallback(
+    deleteFood => {
+      dispatch(deleteMyFood(deleteFood));
+    },
+    [myFoodList]
+  );
 
   //선택 음식의 수량 증가
-  const onAdd = changeFood => {
-    dispatch(addMyFood(changeFood));
-  };
+  const onAdd = useCallback(
+    changeFood => {
+      dispatch(addMyFood(changeFood));
+    },
+    [myFoodList]
+  );
 
   //선택 음식의 수량 감소
-  const onSub = changeFood => {
-    if (changeFood.qty > 1) {
-      dispatch(subMyFood(changeFood));
-    }
-  };
+  const onSub = useCallback(
+    changeFood => {
+      if (changeFood.qty > 1) {
+        dispatch(subMyFood(changeFood));
+      }
+    },
+    [myFoodList]
+  );
 
   //선택 음식 리스트 이미지 미리보기.
-  const renderMyFoodImage = () => {
+  const renderMyFoodImage = useCallback(() => {
     return myFoodList.map(food =>
       [...Array(food.qty)].map(() => {
         return <MyFood>{food.name}</MyFood>;
       })
     );
-  };
+  }, [myFoodList]);
+
+  const getTotalPrice = useCallback(() => {
+    let totlaPirce = 0;
+    myFoodList.map(food => {
+      totlaPirce += food.price * food.qty;
+    });
+    return totlaPirce;
+  }, [myFoodList]);
 
   return (
     <SimulationWrapper>
@@ -91,6 +107,7 @@ const Simulation = () => {
             <OrderItem>
               <p>{food.name}</p>
               <span>x{food.qty}</span>
+              <span>{food.price}원</span>
               <ControlBtn>
                 <AddBtn onClick={() => onAdd(food)}>+</AddBtn>
                 <SubBtn onClick={() => onSub(food)}>-</SubBtn>
@@ -99,6 +116,7 @@ const Simulation = () => {
             </OrderItem>
           ))}
         </OrderList>
+        <OrderTotalPrice>총{getTotalPrice()}원</OrderTotalPrice>
       </Order>
       <Preview>
         <PreviewMyFood>{renderMyFoodImage()}</PreviewMyFood>
@@ -149,6 +167,8 @@ const OrderItem = styled.div`
   justify-content: space-around;
   align-items: center;
 `;
+
+const OrderTotalPrice = styled.div``;
 
 //button
 const ControlBtn = styled.div`
