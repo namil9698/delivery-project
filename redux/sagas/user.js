@@ -29,7 +29,6 @@ function* logInAction() {
 function* logOutAction() {
   try {
     const result = yield call(logOutAPI);
-    console.log('여기');
     yield put({
       type: 'LOG_OUT_SUCCESS',
     });

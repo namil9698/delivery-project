@@ -8,7 +8,6 @@ const Simulation = () => {
   const dispatch = useDispatch();
 
   const myFoodList = useSelector(state => state.simulation.myFoodList);
-  console.log(myFoodList);
 
   ///선택한 종류
   const [focusCategory, setFocusCategory] = useState(0);
@@ -69,8 +68,8 @@ const Simulation = () => {
   //선택 음식 리스트 이미지 미리보기.
   const renderMyFoodImage = useCallback(() => {
     return myFoodList.map(food =>
-      [...Array(food.qty)].map(() => {
-        return <MyFood>{food.name}</MyFood>;
+      [...Array(food.qty)].map((item, index) => {
+        return <MyFood key={index}>{food.name}</MyFood>;
       })
     );
   }, [myFoodList]);
@@ -103,8 +102,8 @@ const Simulation = () => {
       </Menu>
       <Order>
         <OrderList>
-          {myFoodList.map(food => (
-            <OrderItem>
+          {myFoodList.map((food, index) => (
+            <OrderItem key={index}>
               <p>{food.name}</p>
               <span>x{food.qty}</span>
               <span>{food.price}원</span>
