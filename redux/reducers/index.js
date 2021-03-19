@@ -1,8 +1,10 @@
 import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
 import simulation from './simulation';
+import user from './user';
 
 const initialState = {
+  user: {},
   simulation: {},
 };
 
@@ -15,6 +17,7 @@ const rootReducer = combineReducers({
         return state;
     }
   },
+  user,
   simulation,
 });
 
