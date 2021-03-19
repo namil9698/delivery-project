@@ -1,31 +1,25 @@
-import { flush } from '@redux-saga/core/effects';
-
 export const initialState = {
   user: null,
   lodding: false,
   isLogin: false,
 };
 
-export const logInRequest = () => {
-  return {
-    type: 'LOG_IN_REQUEST',
-  };
-};
+export const LOGIN_IN_REQUEST = 'LOG_IN_REQUEST';
+export const LOGIN_IN_SUCCESS = 'LOG_IN_SUCCESS';
+export const LOGIN_IN_FAILURE = 'LOG_IN_FAILURE';
 
-export const logOutRequest = () => {
-  return {
-    type: 'LOG_OUT_REQUEST',
-  };
-};
+export const LOGIN_OUT_REQUEST = 'LOG_OUT_REQUEST';
+export const LOGIN_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
+export const LOGIN_OUT_FAILURE = 'LOG_OUT_FAILURE';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOG_IN_REQUEST':
+    case LOGIN_IN_REQUEST:
       return {
         ...state,
         lodding: true,
       };
-    case 'LOG_IN_SUCCESS':
+    case LOGIN_IN_SUCCESS:
       return {
         ...state,
         isLogin: true,
@@ -36,24 +30,24 @@ const reducer = (state = initialState, action) => {
           uid: action.data.user.uid,
         },
       };
-    case 'LOG_IN_FAILURE':
+    case LOGIN_IN_FAILURE:
       return {
         ...state,
         lodding: false,
       };
-    case 'LOG_OUT_REQUEST':
+    case LOGIN_OUT_REQUEST:
       return {
         ...state,
         lodding: true,
       };
-    case 'LOG_OUT_SUCCESS':
+    case LOGIN_OUT_SUCCESS:
       return {
         ...state,
         isLogin: false,
         lodding: false,
         user: null,
       };
-    case 'LOG_OUT_FAILURE':
+    case LOGIN_OUT_FAILURE:
       return {
         ...state,
         lodding: false,

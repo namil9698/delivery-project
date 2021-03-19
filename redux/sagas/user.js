@@ -2,21 +2,23 @@ import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 // import { logInAPI, logOutAPI } from '../firebase';
 import firebase from '../firebase';
 
-const logInAPI = () => {
-  var provider = new firebase.auth.GoogleAuthProvider();
-  provider.addScope('profile');
-  provider.addScope('email');
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-  return firebase.auth().signInWithPopup(provider);
+const logInAPI = action => {
+  if (action.data === 'google') {
+    var providerGoogle = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(providerGoogle);
+  } else if (action.data === 'anonymous') {
+    return firebase.auth().signInAnonymously();
+  } else {
+  }
 };
 
 const logOutAPI = () => {
   return firebase.auth().signOut();
 };
 
-function* logInAction() {
+function* logInAction(action) {
   try {
-    const result = yield call(logInAPI);
+    const result = yield call(logInAPI, action);
     yield put({
       type: 'LOG_IN_SUCCESS',
       data: result,
