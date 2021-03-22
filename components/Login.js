@@ -1,23 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { LOGIN_IN_REQUEST, LOGIN_OUT_REQUEST } from '../redux/reducers/user';
+import { loginRequest, logoutRequest } from '../redux/reducers/user';
 
 const Login = () => {
   const dispatch = useDispatch();
   const { isLogin } = useSelector(state => state.user);
 
   const onClickLogin = useCallback(data => {
-    dispatch({
-      type: LOGIN_IN_REQUEST,
-      data,
-    });
+    dispatch(loginRequest(data));
   }, []);
 
   const onClickLogout = useCallback(() => {
-    dispatch({
-      type: LOGIN_OUT_REQUEST,
-    });
+    dispatch(logoutRequest());
   }, []);
 
   return (
