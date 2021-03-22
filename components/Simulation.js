@@ -3,11 +3,17 @@ import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { chageMyFoodList, deleteMyFood, addMyFood, subMyFood } from '../redux/reducers/simulation';
+import { orderSaveRequest } from '../redux/reducers/user';
 
 const Simulation = () => {
   const dispatch = useDispatch();
-
+  const { isLogin } = useSelector(state => state.user);
+  const user = useSelector(state => state.user.user);
+  const { history } = useSelector(state => state.user.userData);
   const myFoodList = useSelector(state => state.simulation.myFoodList);
+
+  //로그인 여부.
+  useEffect(() => {}, [isLogin]);
 
   ///선택한 종류
   const [focusCategory, setFocusCategory] = useState(0);
@@ -74,14 +80,23 @@ const Simulation = () => {
     );
   }, [myFoodList]);
 
+  //총 주문가격.
   const getTotalPrice = useCallback(() => {
-    let totlaPirce = 0;
+    let totalPirce = 0;
     myFoodList.map(food => {
-      totlaPirce += food.price * food.qty;
+      totalPirce += food.price * food.qty;
     });
-    return totlaPirce;
+    return totalPirce;
   }, [myFoodList]);
 
+  //선택 음식 주문.(DB저장)
+  const orderRequest = useCallback(
+    (myFoodList, user) => {
+      const totalPrice = getTotalPrice();
+      dispatch(orderSaveRequest(myFoodList, user, totalPrice, history));
+    },
+    [myFoodList]
+  );
   return (
     <SimulationWrapper>
       <Menu>
@@ -116,6 +131,13 @@ const Simulation = () => {
           ))}
         </OrderList>
         <OrderTotalPrice>총{getTotalPrice()}원</OrderTotalPrice>
+        <OrderRequest
+          onClick={() => {
+            orderRequest(myFoodList, user);
+          }}
+        >
+          주문
+        </OrderRequest>
       </Order>
       <Preview>
         <PreviewMyFood>{renderMyFoodImage()}</PreviewMyFood>
@@ -168,6 +190,7 @@ const OrderItem = styled.div`
 `;
 
 const OrderTotalPrice = styled.div``;
+const OrderRequest = styled.div``;
 
 //button
 const ControlBtn = styled.div`

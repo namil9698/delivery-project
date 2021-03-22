@@ -1,57 +1,143 @@
+import { useSelector } from 'react-redux';
+
 export const initialState = {
-  user: null,
+  user: {
+    name: '',
+    email: '',
+    uid: '',
+  },
+  userData: {
+    history: [],
+  },
   lodding: false,
   isLogin: false,
 };
 
-export const LOGIN_IN_REQUEST = 'LOG_IN_REQUEST';
-export const LOGIN_IN_SUCCESS = 'LOG_IN_SUCCESS';
-export const LOGIN_IN_FAILURE = 'LOG_IN_FAILURE';
+export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
+export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
+export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
 
-export const LOGIN_OUT_REQUEST = 'LOG_OUT_REQUEST';
-export const LOGIN_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
-export const LOGIN_OUT_FAILURE = 'LOG_OUT_FAILURE';
+export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
+export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
+export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
+
+export const ORDER_SAVE_REQUEST = 'ORDER_SAVE_REQUEST';
+export const ORDER_SAVE_SUCCESS = 'ORDER_SAVE_SUCCESS';
+export const ORDER_SAVE_FAILURE = 'ORDER_SAVE_FAILURE';
+
+export const GET_USERDATA_REQUEST = 'GET_USERDATA_REQUEST';
+export const GET_USERDATA_SUCCESS = 'GET_USERDATA_SUCCESS';
+export const GET_USERDATA_FAILURE = 'GET_USERDATA_FAILURE';
+
+export const loginRequest = data => {
+  return {
+    type: LOG_IN_REQUEST,
+    data,
+  };
+};
+
+export const logoutRequest = () => {
+  return {
+    type: LOG_OUT_REQUEST,
+  };
+};
+
+export const orderSaveRequest = (myFoodList, user, totalPirce, history) => {
+  return {
+    type: ORDER_SAVE_REQUEST,
+    data: {
+      myFoodList,
+      user,
+      totalPirce,
+      history,
+    },
+  };
+};
+
+export const getUserDataRequest = data => {
+  return {
+    type: GET_USERDATA_REQUEST,
+    data,
+  };
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_IN_REQUEST:
+    case LOG_IN_REQUEST:
       return {
         ...state,
         lodding: true,
       };
-    case LOGIN_IN_SUCCESS:
+    case LOG_IN_SUCCESS:
       return {
         ...state,
         isLogin: true,
         lodding: false,
         user: {
+          ...state.user,
           name: action.data.user.displayName,
           email: action.data.user.email,
           uid: action.data.user.uid,
         },
       };
-    case LOGIN_IN_FAILURE:
+    case LOG_IN_FAILURE:
       return {
         ...state,
         lodding: false,
       };
-    case LOGIN_OUT_REQUEST:
+    case LOG_OUT_REQUEST:
       return {
         ...state,
         lodding: true,
       };
-    case LOGIN_OUT_SUCCESS:
+    case LOG_OUT_SUCCESS:
       return {
         ...state,
         isLogin: false,
         lodding: false,
         user: null,
       };
-    case LOGIN_OUT_FAILURE:
+    case LOG_OUT_FAILURE:
       return {
         ...state,
         lodding: false,
       };
+    case ORDER_SAVE_REQUEST:
+      return {
+        ...state,
+        lodding: true,
+      };
+    case ORDER_SAVE_SUCCESS:
+      return {
+        ...state,
+        isLogin: true,
+        lodding: false,
+      };
+    case ORDER_SAVE_FAILURE:
+      return {
+        ...state,
+        lodding: false,
+      };
+    case GET_USERDATA_REQUEST:
+      return {
+        ...state,
+        lodding: true,
+      };
+    case GET_USERDATA_SUCCESS:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          history: [...action.data.history],
+        },
+        lodding: false,
+      };
+    case GET_USERDATA_FAILURE:
+      return {
+        ...state,
+        lodding: false,
+      };
+
     default:
       return state;
   }
