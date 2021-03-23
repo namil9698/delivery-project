@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginRequest, logoutRequest } from '../redux/reducers/user';
+import Link from 'next/link';
 
 const Login = () => {
   const dispatch = useDispatch();

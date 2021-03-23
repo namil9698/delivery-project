@@ -82,11 +82,11 @@ const Simulation = () => {
 
   //총 주문가격.
   const getTotalPrice = useCallback(() => {
-    let totalPirce = 0;
+    let totalPrice = 0;
     myFoodList.map(food => {
-      totalPirce += food.price * food.qty;
+      totalPrice += food.price * food.qty;
     });
-    return totalPirce;
+    return totalPrice;
   }, [myFoodList]);
 
   //선택 음식 주문.(DB저장)
@@ -133,7 +133,11 @@ const Simulation = () => {
         <OrderTotalPrice>총{getTotalPrice()}원</OrderTotalPrice>
         <OrderRequest
           onClick={() => {
-            orderRequest(myFoodList, user);
+            if (isLogin) {
+              orderRequest(myFoodList, user);
+            } else {
+              window.alert('로그인필요');
+            }
           }}
         >
           주문
