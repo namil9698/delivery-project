@@ -6,11 +6,15 @@ import {
   LOG_IN_SUCCESS,
   LOG_OUT_SUCCESS,
   ORDER_SAVE_SUCCESS,
+  GET_USERDATA_SUCCESS,
   LOG_IN_REQUEST,
   LOG_OUT_REQUEST,
   ORDER_SAVE_REQUEST,
   GET_USERDATA_REQUEST,
-  GET_USERDATA_SUCCESS,
+  LOG_IN_FAILURE,
+  LOG_OUT_FAILURE,
+  ORDER_SAVE_FAILURE,
+  GET_USERDATA_FAILURE,
 } from '../reducers/user';
 
 //ACTION
@@ -26,8 +30,19 @@ function* logInAction(action) {
       type: LOG_IN_SUCCESS,
       data: result,
     });
-  } catch (e) {
-    console.log('error', e);
+    yield put({
+      type: GET_USERDATA_REQUEST,
+      data: {
+        name: result.user.displayName,
+        email: result.user.email,
+        uid: result.user.uid,
+      },
+    });
+  } catch (err) {
+    console.log('err.message:', err.message);
+    yield put({
+      type: LOG_IN_FAILURE,
+    });
   }
 }
 
@@ -38,8 +53,11 @@ function* logOutAction() {
     yield put({
       type: LOG_OUT_SUCCESS,
     });
-  } catch (e) {
-    console.log('error', e);
+  } catch (err) {
+    console.log('err.message:', err.message);
+    yield put({
+      type: LOG_OUT_FAILURE,
+    });
   }
 }
 
@@ -49,26 +67,26 @@ function* orderSaveAction(action) {
     const isMember = user.email && user.name ? 'member' : 'non-member';
     const myDB = firebase.firestore();
     const docRef = myDB.collection(isMember).doc(user.uid);
-    if (isMember === 'member') {
+    if (isMember === 'member' && action.data.history.length > 0) {
       yield call([docRef, docRef.update], {
         history: [
           ...action.data.history,
           {
             ...action.data.myFoodList,
-            totalPirce: action.data.totalPirce,
+            totalPrice: action.data.totalPrice,
           },
         ],
       });
     } else {
       yield call([docRef, docRef.set], {
         user: {
-          name: '비회원',
-          email: '',
+          name: isMember === 'member' ? user.name : '비회원',
+          email: isMember === 'member' ? user.email : '',
         },
         history: [
           {
             ...action.data.myFoodList,
-            totalPirce: action.data.totalPirce,
+            totalPrice: action.data.totalPrice,
           },
         ],
       });
@@ -77,8 +95,15 @@ function* orderSaveAction(action) {
     yield put({
       type: ORDER_SAVE_SUCCESS,
     });
-  } catch (e) {
-    console.log('error', e);
+    yield put({
+      type: GET_USERDATA_REQUEST,
+      data: user,
+    });
+  } catch (err) {
+    console.log('err.message:', err.message);
+    yield put({
+      type: ORDER_SAVE_FAILURE,
+    });
   }
 }
 
@@ -94,8 +119,11 @@ function* getUserDataAction(action) {
       type: GET_USERDATA_SUCCESS,
       data: myData,
     });
-  } catch (e) {
-    console.log('error', e);
+  } catch (err) {
+    console.log('err.message:', err.message);
+    yield put({
+      type: GET_USERDATA_FAILURE,
+    });
   }
 }
 

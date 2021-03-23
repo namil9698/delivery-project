@@ -42,13 +42,13 @@ export const logoutRequest = () => {
   };
 };
 
-export const orderSaveRequest = (myFoodList, user, totalPirce, history) => {
+export const orderSaveRequest = (myFoodList, user, totalPrice, history) => {
   return {
     type: ORDER_SAVE_REQUEST,
     data: {
       myFoodList,
       user,
-      totalPirce,
+      totalPrice,
       history,
     },
   };
