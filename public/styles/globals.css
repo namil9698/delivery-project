@@ -1,0 +1,28 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -applye-system, 'Gothic400', sans-serif;
+}
+
+@font-face {
+  font-family: 'InkLipquid';
+  font-weight: 200;
+  src: url('/fonts/InkLipquidFonts.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Gothic200';
+  font-weight: 200;
+  src: url('/fonts/GothicA1-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gothic400';
+  font-weight: 400;
+  src: url('/fonts/GothicA1-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Gothic800';
+  font-weight: 800;
+  src: url('/fonts/GothicA1-Bold.ttf') format('truetype');
+}

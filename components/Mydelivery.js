@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserDataRequest } from '../redux/reducers/user';
-import index from '../pages';
-import { array, object } from 'prop-types';
 
 const Mydelivery = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-  const [data, setData] = useState(0);
   const [toggle, setToggle] = useState(false);
   const [height, setHieght] = useState({
     window: 0,
