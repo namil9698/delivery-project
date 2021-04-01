@@ -4,21 +4,20 @@ import Link from 'next/link';
 
 const index = () => {
   return (
-    <HomeWrapper>
-      <HomeBanner>
+    <HomeBanner>
+      <Link href="/login">
         <Banner>
           <BannerTitle>
             <Title>My Delivery</Title>
           </BannerTitle>
+
           <BannerImg>
             <Img className="home_img" />
           </BannerImg>
-          <Link href="/login">
-            <BannerBtn>Click !</BannerBtn>
-          </Link>
+          <BannerBtn>Click !</BannerBtn>
         </Banner>
-      </HomeBanner>
-    </HomeWrapper>
+      </Link>
+    </HomeBanner>
   );
 };
 
@@ -39,29 +38,22 @@ const MoveUp = keyframes`
 }
 `;
 
-const HomeWrapper = styled.div`
-  overflow-x: hidden;
-`;
-
 const HomeBanner = styled.div`
-  width: 100vw;
-  height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 100%;
 `;
 
 const Banner = styled.div`
   position: relative;
   animation: ${MoveUp} 1s linear;
 
-  width: 50vw;
-  height: 50vw;
-
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin: 0 auto;
+  width: 800px;
+  height: 800px;
 
   border-radius: 50%;
   background: rgba(241, 231, 103, 1);
@@ -74,10 +66,12 @@ const Banner = styled.div`
     }
   }
 
-  @media all and (max-width: 1100px) {
+  @media all and (max-width: 1200px) {
+    animation: none;
+    flex-direction: column;
     border-radius: 0%;
-    width: 100%;
-    height: 800px;
+    width: 100vw;
+    height: 100vh;
   }
 `;
 
@@ -85,27 +79,29 @@ const BannerTitle = styled.div`
   position: absolute;
   z-index: 3;
 
-  font-size: 10vw;
+  font-size: 200px;
   color: black;
 
   text-shadow: 5px 5px #fff;
   font-family: 'InkLipquid';
 
-  @media all and (max-width: 1100px) {
-    top: 0;
+  @media all and (max-width: 1200px) {
+    position: static;
     border-radius: 0%;
-    font-size: 80px;
+    font-size: 50px;
   }
 `;
 
 const Title = styled.p``;
 
 const BannerImg = styled.div`
-  width: 50vw;
-  height: calc(50vw * 0.76);
-  min-width: 516px;
-  min-height: 396px;
-  padding: 2vw 1vw;
+  width: 800px;
+  height: calc(800px * 0.76);
+
+  @media all and (max-width: 1200px) {
+    width: 320px;
+    height: calc(320px * 0.76);
+  }
 `;
 
 const Img = styled.div`
@@ -119,16 +115,11 @@ const Img = styled.div`
 
 const BannerBtn = styled.div`
   opacity: 0;
-  position: absolute;
   z-index: 4;
-  width: 100%;
-  height: 100%;
-  @media all and (max-width: 1100px) {
+
+  @media all and (max-width: 1200px) {
     opacity: 1;
     display: block;
-    height: auto;
-    width: auto;
-    bottom: 50px;
     font-size: 100px;
     color: tomato;
     font-family: 'InkLipquid';

@@ -5,6 +5,7 @@ import wrapper from '../redux/store/configureStore';
 import withReduxSaga from 'next-redux-saga';
 import { useSelector } from 'react-redux';
 import Popup from '../components/Popup';
+import Layout from '../components/Layout';
 import '../public/styles/globals.css';
 
 const App = ({ Component }) => {
@@ -16,7 +17,14 @@ const App = ({ Component }) => {
         <meta charSet="utf-8" />
         <title>MyDelivery</title>
       </Head>
-      {islodding ? <Popup /> : <Component />}
+
+      {islodding ? (
+        <Popup />
+      ) : (
+        <Layout>
+          <Component />
+        </Layout>
+      )}
     </>
   );
 };
