@@ -2,105 +2,100 @@
   {
     "id": 1,
     "category": "한식",
+    "iconUrl": "/images/food/korea.png",
     "food": [
       {
-        "id": "1_1",
+        "id": "k_1",
         "name": "김밥",
-        "price": 2500
+        "price": 2500,
+        "imgUrl": "/images/food/k_1.png"
       },
       {
-        "id": "1_2",
+        "id": "k_2",
         "name": "된장찌개",
-        "price": 5000
+        "price": 5000,
+        "imgUrl": "/images/food/k_2.png"
       },
       {
-        "id": "1_3",
+        "id": "k_3",
         "name": "제육덮밥",
-        "price": 5500
+        "price": 5500,
+        "imgUrl": "/images/food/k_3.png"
       }
     ]
   },
   {
     "id": 2,
-    "category": "중식",
+    "category": "일식",
+    "iconUrl": "/images/food/japan.png",
     "food": [
       {
-        "id": "2_1",
-        "name": "짜장면",
-        "price": 3500
+        "id": "j_1",
+        "name": "돈까스",
+        "price": 5500,
+        "imgUrl": "/images/food/j_1.png"
       },
       {
-        "id": "2_2",
-        "name": "짬뽕",
-        "price": 4000
+        "id": "j_2",
+        "name": "초밥",
+        "price": 11500,
+        "imgUrl": "/images/food/j_2.png"
       },
       {
-        "id": "2_3",
-        "name": "탕수육",
-        "price": 11000
+        "id": "j_3",
+        "name": "냉모밀",
+        "price": 7000,
+        "imgUrl": "/images/food/j_3.png"
       }
     ]
   },
   {
     "id": 3,
-    "category": "일식",
+    "category": "패스트푸드",
+    "iconUrl": "/images/food/fastfood.png",
     "food": [
       {
-        "id": "3_1",
-        "name": "돈까스",
-        "price": 5500
+        "id": "p_1",
+        "name": "피자",
+        "price": 14500,
+        "imgUrl": "/images/food/p_1.png"
       },
       {
-        "id": "3_2",
-        "name": "초밥",
-        "price": 11500
+        "id": "p_2",
+        "name": "치킨",
+        "price": 12000,
+        "imgUrl": "/images/food/p_2.png"
       },
       {
-        "id": "3_3",
-        "name": "냉모밀",
-        "price": 7000
+        "id": "p_3",
+        "name": "햄버거",
+        "price": 7500,
+        "imgUrl": "/images/food/p_3.png"
       }
     ]
   },
   {
     "id": 4,
-    "category": "패스트푸드",
-    "food": [
-      {
-        "id": "4_1",
-        "name": "피자",
-        "price": 14500
-      },
-      {
-        "id": "4_2",
-        "name": "치킨",
-        "price": 12000
-      },
-      {
-        "id": "4_3",
-        "name": "햄버거",
-        "price": 7500
-      }
-    ]
-  },
-  {
-    "id": 5,
     "category": "디저트",
+    "iconUrl": "/images/food/dessert.png",
     "food": [
       {
-        "id": "5_1",
+        "id": "d_1",
         "name": "아메리카노",
-        "price": 2000
+        "price": 2000,
+        "imgUrl": "/images/food/d_1.png"
       },
       {
-        "id": "5_2",
+        "id": "d_2",
         "name": "까페라떼",
-        "price": 2500
+        "price": 2500,
+        "imgUrl": "/images/food/d_2.png"
       },
       {
-        "id": "5_3",
+        "id": "d_3",
         "name": "조각케이크",
-        "price": 3500
+        "price": 3500,
+        "imgUrl": "/images/food/d_3.png"
       }
     ]
   }
