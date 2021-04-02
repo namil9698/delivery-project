@@ -79,23 +79,23 @@ const Simulation = () => {
 
   //선택 음식 리스트 이미지 미리보기.
   const renderMyFoodImage = useCallback(() => {
-    const location1 = [[0, 0, 1]];
+    const location1 = [[0, 0.25, 1]];
     const location2 = [
-      [0.25, 0, 1],
-      [-0.25, 0, 1],
+      [0.25, 0.25, 1],
+      [-0.25, 0.25, 1],
     ];
     const location4 = [
       [0, 0, 3],
       [0.5, 0.5, 2],
-      [0, 1, 1],
+      [0, 0.75, 1],
       [-0.5, 0.5, 2],
     ];
     const location6 = [
       [-0.25, 0, 3],
       [0.25, 0, 3],
       [0.5, 0.5, 2],
-      [0.25, 0.75, 1],
-      [-0.25, 0.75, 1],
+      [0.2, 0.75, 1],
+      [-0.2, 0.75, 1],
       [-0.5, 0.5, 2],
     ];
     const location8 = [
@@ -103,7 +103,7 @@ const Simulation = () => {
       [0.25, 0.25, 4],
       [0.5, 0.5, 3],
       [0.25, 0.75, 2],
-      [0, 1, 1],
+      [0, 0.8, 1],
       [-0.25, 0.75, 2],
       [-0.5, 0.5, 3],
       [-0.25, 0.25, 4],
@@ -139,8 +139,12 @@ const Simulation = () => {
   //선택 음식 주문.(DB저장)
   const orderRequest = useCallback(
     (myFoodList, user) => {
-      const totalPrice = getTotalPrice();
-      dispatch(orderSaveRequest(myFoodList, user, totalPrice, history));
+      if (myFoodList.length > 0) {
+        const totalPrice = getTotalPrice();
+        dispatch(orderSaveRequest(myFoodList, user, totalPrice, history));
+      } else {
+        alert('장바구니가 비어있습니다.');
+      }
     },
     [myFoodList]
   );
@@ -455,7 +459,7 @@ const SubBtn = styled.div`
 //Preview
 const Preview = styled.div`
   overflow: hidden;
-
+  width: 840px;
   height: 800px;
 
   display: flex;
@@ -484,7 +488,7 @@ const MyFood = styled.div`
   transition: all 0.5s ease;
 
   left: calc(${props => props.location[0]}*60% + 300px);
-  bottom: calc(${props => props.location[1]} * 80%);
+  bottom: calc(${props => props.location[1]} * 200px + (${props => props.row}* 10px));
 
   width: calc(250px - ${props => props.location[1]} * 100px);
   height: calc(200px - ${props => props.location[1]} * 100px);
