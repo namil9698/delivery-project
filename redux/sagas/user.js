@@ -64,10 +64,10 @@ function* logOutAction() {
 function* orderSaveAction(action) {
   try {
     const user = action.data.user;
-    const isMember = user.email && user.name ? 'member' : 'non-member';
+    const memberType = user.email && user.name ? 'member' : 'non-member';
     const myDB = firebase.firestore();
-    const docRef = myDB.collection(isMember).doc(user.uid);
-    if (isMember === 'member' && action.data.history.length > 0) {
+    const docRef = myDB.collection(memberType).doc(user.uid);
+    if (memberType === 'member' && action.data.history.length > 0) {
       yield call([docRef, docRef.update], {
         history: [
           ...action.data.history,
@@ -80,8 +80,8 @@ function* orderSaveAction(action) {
     } else {
       yield call([docRef, docRef.set], {
         user: {
-          name: isMember === 'member' ? user.name : '비회원',
-          email: isMember === 'member' ? user.email : '',
+          name: memberType === 'member' ? user.name : '비회원',
+          email: memberType === 'member' ? user.email : '',
         },
         history: [
           {
@@ -110,9 +110,9 @@ function* orderSaveAction(action) {
 function* getUserDataAction(action) {
   try {
     const user = action.data;
-    const isMember = user.email && user.name ? 'member' : 'non-member';
+    const memberType = user.email && user.name ? 'member' : 'non-member';
     const myDB = firebase.firestore();
-    const docRef = myDB.collection(isMember).doc(user.uid);
+    const docRef = myDB.collection(memberType).doc(user.uid);
     const myDocument = yield call([docRef, docRef.get]);
     const myData = yield call([myDocument, myDocument.data]);
     yield put({

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import FoodData from './datas/food_data.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { chageMyFoodList, deleteMyFood, addMyFood, subMyFood } from '../redux/reducers/simulation';
@@ -22,13 +22,13 @@ const Simulation = () => {
   const renderFoodList = () => {
     const [selectFoodList] = FoodData.filter(item => item.id === focusCategory);
     if (selectFoodList) {
-      return selectFoodList.food.map(Food => (
+      return selectFoodList.food.map(food => (
         <FoodItem
-          key={Food.id}
-          active={myFoodList.find(myfood => myfood.id === Food.id)}
-          onClick={() => createMyFoodList(Food)}
+          key={food.id}
+          active={myFoodList.find(myfood => myfood.id === food.id)}
+          onClick={() => createMyFoodList(food)}
         >
-          {Food.name}
+          {food.name}
         </FoodItem>
       ));
     } else {
@@ -40,6 +40,8 @@ const Simulation = () => {
     let isThere = myFoodList.find(food => food.id === myFood.id);
     if (isThere) {
       dispatch(deleteMyFood(isThere));
+    } else if (myFoodList.length > 7) {
+      alert('최대 8종류의 메뉴만 선택할 수 있어요.');
     } else {
       dispatch(chageMyFoodList(myFood));
     }
@@ -56,7 +58,11 @@ const Simulation = () => {
   //선택 음식의 수량 증가
   const onAdd = useCallback(
     changeFood => {
-      dispatch(addMyFood(changeFood));
+      if (myFoodList.find(item => item.qty > 14)) {
+        alert('최대 수량입니다.');
+      } else {
+        dispatch(addMyFood(changeFood));
+      }
     },
     [myFoodList]
   );
@@ -73,11 +79,52 @@ const Simulation = () => {
 
   //선택 음식 리스트 이미지 미리보기.
   const renderMyFoodImage = useCallback(() => {
-    return myFoodList.map(food =>
-      [...Array(food.qty)].map((item, index) => {
-        return <MyFood key={index}>{food.name}</MyFood>;
-      })
-    );
+    const location1 = [[0, 0.25, 1]];
+    const location2 = [
+      [0.25, 0.25, 1],
+      [-0.25, 0.25, 1],
+    ];
+    const location4 = [
+      [0, 0, 3],
+      [0.5, 0.5, 2],
+      [0, 0.75, 1],
+      [-0.5, 0.5, 2],
+    ];
+    const location6 = [
+      [-0.25, 0, 3],
+      [0.25, 0, 3],
+      [0.5, 0.5, 2],
+      [0.2, 0.75, 1],
+      [-0.2, 0.75, 1],
+      [-0.5, 0.5, 2],
+    ];
+    const location8 = [
+      [0, 0, 5],
+      [0.25, 0.25, 4],
+      [0.5, 0.5, 3],
+      [0.25, 0.75, 2],
+      [0, 0.8, 1],
+      [-0.25, 0.75, 2],
+      [-0.5, 0.5, 3],
+      [-0.25, 0.25, 4],
+    ];
+    let location = [];
+    if (myFoodList.length > 6) {
+      location = location8;
+    } else if (myFoodList.length > 4) {
+      location = location6;
+    } else if (myFoodList.length > 2) {
+      location = location4;
+    } else if (myFoodList.length > 1) {
+      location = location2;
+    } else {
+      location = location1;
+    }
+    return myFoodList.map((food, index) => {
+      return [...Array(food.qty)].map((item, key) => {
+        return <MyFood key={key} src={food.imgUrl} location={location[index]} row={key} />;
+      });
+    });
   }, [myFoodList]);
 
   //총 주문가격.
@@ -92,11 +139,26 @@ const Simulation = () => {
   //선택 음식 주문.(DB저장)
   const orderRequest = useCallback(
     (myFoodList, user) => {
-      const totalPrice = getTotalPrice();
-      dispatch(orderSaveRequest(myFoodList, user, totalPrice, history));
+      if (myFoodList.length > 0) {
+        const totalPrice = getTotalPrice();
+        dispatch(orderSaveRequest(myFoodList, user, totalPrice, history));
+      } else {
+        alert('장바구니가 비어있습니다.');
+      }
     },
     [myFoodList]
   );
+
+  const changePreviewImg = useCallback(() => {
+    if (myFoodList.find(item => item.qty > 10)) {
+      return '/images/preview3.png';
+    } else if (myFoodList.find(item => item.qty > 5)) {
+      return '/images/preview2.png';
+    } else {
+      return '/images/preview1.png';
+    }
+  }, [myFoodList]);
+
   return (
     <SimulationWrapper>
       <Menu>
@@ -108,120 +170,351 @@ const Simulation = () => {
                 setFocusCategory(item.id);
               }}
               active={item.id === focusCategory}
+              src={item.iconUrl}
             >
               {item.category}
             </CategoryItem>
           ))}
         </CategoryList>
-        <FoodList>{renderFoodList()}</FoodList>
       </Menu>
-      <Order>
-        <OrderList>
-          {myFoodList.map((food, index) => (
-            <OrderItem key={index}>
-              <p>{food.name}</p>
-              <span>x{food.qty}</span>
-              <span>{food.price}원</span>
-              <ControlBtn>
-                <AddBtn onClick={() => onAdd(food)}>+</AddBtn>
-                <SubBtn onClick={() => onSub(food)}>-</SubBtn>
-                <DeleteBtn onClick={() => onDelete(food)}>삭제</DeleteBtn>
-              </ControlBtn>
-            </OrderItem>
-          ))}
-        </OrderList>
-        <OrderTotalPrice>총{getTotalPrice()}원</OrderTotalPrice>
-        <OrderRequest
-          onClick={() => {
-            if (isLogin) {
-              orderRequest(myFoodList, user);
-            } else {
-              window.alert('로그인필요');
-            }
-          }}
-        >
-          주문
-        </OrderRequest>
-      </Order>
-      <Preview>
-        <PreviewMyFood>{renderMyFoodImage()}</PreviewMyFood>
-      </Preview>
+      <SimulationContents>
+        <Order>
+          <OrderList>
+            <OrderListHeader>장바구니</OrderListHeader>
+            {myFoodList.map((food, index) => (
+              <OrderItem key={index}>
+                <p>{food.name}</p>
+                <span>x{food.qty}</span>
+                <span>{food.price}원</span>
+                <ControlBtn>
+                  <AddBtn onClick={() => onAdd(food)}>+</AddBtn>
+                  <SubBtn onClick={() => onSub(food)}>-</SubBtn>
+                  <DeleteBtn onClick={() => onDelete(food)}>삭제</DeleteBtn>
+                </ControlBtn>
+              </OrderItem>
+            ))}
+          </OrderList>
+          <OrderTotal>
+            <OrderTotalPrice>
+              <span>총가격:</span>
+              <span>{getTotalPrice()}원</span>
+            </OrderTotalPrice>
+            <OrderTotalRequest
+              onClick={() => {
+                if (isLogin) {
+                  orderRequest(myFoodList, user);
+                } else {
+                  window.alert('로그인필요');
+                }
+              }}
+            >
+              <span>주문</span>
+            </OrderTotalRequest>
+          </OrderTotal>
+        </Order>
+        <Wrapper className="food_preview">
+          <FoodList>{renderFoodList()}</FoodList>
+          <Preview src={changePreviewImg}>
+            <PreviewMyFood>{renderMyFoodImage()}</PreviewMyFood>
+          </Preview>
+        </Wrapper>
+      </SimulationContents>
     </SimulationWrapper>
   );
 };
 
 export default Simulation;
 
-const SimulationWrapper = styled.div``;
+const SimulationWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+`;
+
+const SimulationContents = styled.div`
+  display: flex;
+`;
 
 //Food
 const Menu = styled.div``;
 const CategoryList = styled.ul`
+  margin: 0 auto;
+  padding: 0 100px;
+  height: 100px;
+  background-color: #fff;
   display: flex;
-  justify-content: space-around;
+  align-items: center;
 `;
 const CategoryItem = styled.li`
+  position: relative;
+  width: 25%;
+  height: 100%;
+
+  display: block;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #323232;
+  font-size: 30px;
+  font-weight: 800;
+
+  & ::before {
+    content: '';
+    display: block;
+    background-image: url(${props => props.src});
+    background-size: 100% 100%;
+    width: 50px;
+    height: 50px;
+  }
+
+  & ::after {
+    display: block;
+    position: absolute;
+    bottom: 0;
+
+    content: '';
+
+    height: 10px;
+    width: 3px;
+    background-color: #d00005;
+
+    transform: scaleY(0);
+    transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s,
+      //스케일 후 넓이 애니메이션
+      background-color 0.1s;
+  }
+
+  &:hover {
+    &::after {
+      transform: scaleY(1);
+      width: 100%;
+    }
+  }
 
   ${props =>
     props.active &&
     css`
-      color: red;
-    `}
+      color: #d00005;
+      & ::after {
+        transform: scaleY(1);
+        width: 100%;
+      }
+    `};
 `;
 
 const FoodList = styled.ul`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  height: 100px;
+  background-color: #ffd300;
+  border: 1px solid #fff;
+  box-sizing: border-box;
 `;
 const FoodItem = styled.li`
+  flex: 1;
+  display: block;
   cursor: pointer;
+  height: 100%;
+  background-color: #ffd300;
+  color: #fff;
+  border: 1px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 25px;
+  &::after {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    content: '';
+    width: 20px;
+    height: 20px;
+    transition: all 0.1s ease;
+  }
 
   ${props =>
     props.active &&
     css`
-      color: blue;
+      &::after {
+        display: block;
+        content: '';
+        background-image: url('/images/check.svg');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        position: absolute;
+        z-index: 3;
+        width: 50px;
+        height: 50px;
+      }
     `}
 `;
 
 //Order
-const Order = styled.div``;
-const OrderList = styled.div``;
-const OrderItem = styled.div`
+const Order = styled.div`
+  border: 1px solid #fff;
+  width: 30%;
+  height: 900px;
+  background-color: #00a1ff;
+  overflow: hidden;
+
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+`;
+
+const OrderList = styled.div``;
+const OrderListHeader = styled.div`
+  height: 100px;
+  font-size: 50px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
   align-items: center;
 `;
 
-const OrderTotalPrice = styled.div``;
-const OrderRequest = styled.div``;
+const OrderItem = styled.div`
+  height: 75px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+
+  transition: all 0.1s ease;
+
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #777;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  & p {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  & span {
+    margin-left: 10px;
+  }
+`;
+const OrderTotal = styled.div`
+  margin-top: auto;
+  text-align: center;
+`;
+const OrderTotalPrice = styled.div`
+  height: 80px;
+  background-color: #ffd300;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const OrderTotalRequest = styled.div`
+  font-size: 40px;
+  background-color: #d00005;
+  height: 105px;
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & span {
+    transition: all 0.1s ease;
+  }
+
+  &:hover {
+    & span {
+      transform: scale(1.3);
+    }
+  }
+`;
 
 //button
 const ControlBtn = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100px;
+  margin-left: auto;
 `;
 const DeleteBtn = styled.div`
+  color: #d00005;
   cursor: pointer;
 `;
 const AddBtn = styled.div`
+  color: #00a1ff;
   cursor: pointer;
 `;
 const SubBtn = styled.div`
+  color: #ffd300;
   cursor: pointer;
 `;
 
 //Preview
-const Preview = styled.div``;
-const PreviewMyFood = styled.div`
-  display: flex;
-`;
-const MyFood = styled.div`
+const Preview = styled.div`
+  overflow: hidden;
+  width: 840px;
+  height: 800px;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
-  background-color: yellow;
+  background-image: url(${props => props.src});
+  background-position: 10px 50px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: tomato;
+
+  transition: all 0.5s ease;
+`;
+const PreviewMyFood = styled.div`
+  position: relative;
+  width: 100%;
+  height: 200px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const MyFood = styled.div`
+  position: absolute;
+
+  transition: all 0.5s ease;
+
+  left: calc(${props => props.location[0]}*60% + 300px);
+  bottom: calc(${props => props.location[1]} * 200px + (${props => props.row}* 10px));
+
+  width: calc(250px - ${props => props.location[1]} * 100px);
+  height: calc(200px - ${props => props.location[1]} * 100px);
+  filter: brightness(calc(100% - ${props => props.location[1]}* 30%));
+  z-index: ${props => props.location[2]};
+
+  background-image: url(${props => props.src});
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &::after {
+    content: '${props => props.qty}';
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: block;
+    color: #d00005;
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+//Wrapper
+const Wrapper = styled.div`
+  &.food_preview {
+    width: 70%;
+  }
 `;
