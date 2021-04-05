@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import Popup from '../components/Popup';
 import Layout from '../components/Layout';
 import '../public/styles/globals.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const App = ({ Component }) => {
   const islodding = useSelector(state => state.user.lodding);
