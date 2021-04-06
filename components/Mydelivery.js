@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { logoutRequest } from '../redux/reducers/user';
@@ -94,22 +94,20 @@ const Mydelivery = () => {
     });
 
     return (
-      <StatisticsChartList>
+      <ChartList>
         {myStatistics.map((item, index) => (
-          <StatisticsChartItem
+          <ChartItem
             key={index}
             index={index}
+            name={item.name}
             qty={item.qty}
             totalType={myStatistics.length}
             totalQty={totalQty}
             maxQty={maxQty}
             active={item.qty === maxQty ? true : false}
-          >
-            <span>{item.name}</span>
-            <p>{item.qty}</p>
-          </StatisticsChartItem>
+          ></ChartItem>
         ))}
-      </StatisticsChartList>
+      </ChartList>
     );
   }, [user]);
 
@@ -129,18 +127,31 @@ const Mydelivery = () => {
         </MydeliveryProfile>
 
         <MydeliveryHistoryMyFood>
+          <p>주문내역</p>
           <Slider {...settings}>{renderMyHistory()}</Slider>
         </MydeliveryHistoryMyFood>
       </Wrapper>
 
-      <MydeliveryStatistics>
-        <Statistics>{renderStatistics()}</Statistics>
-      </MydeliveryStatistics>
+      <MydeliveryChartList>{renderStatistics()}</MydeliveryChartList>
     </WapperMydelivery>
   );
 };
 
 export default Mydelivery;
+
+const moveUp = keyframes`
+ from {
+
+ height:0;
+ }
+
+ to {
+  
+  height:100%;
+ }
+
+
+`;
 
 const WapperMydelivery = styled.div``;
 const Wrapper = styled.div`
@@ -206,14 +217,25 @@ const LogoutBtn = styled.div`
 `;
 
 const MydeliveryHistoryMyFood = styled.div`
+  border: 1px solid #fff;
+
   width: 800px;
   height: 500px;
-  background-color: transparent;
+  background-color: tomato;
+
+  & > p {
+    height: 50px;
+
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const HistoryMyFoodList = styled.div`
   border: 1px solid #fff;
 
-  height: 500px;
+  height: 450px;
   background-color: #ffd300;
 
   display: flex !important;
@@ -226,10 +248,11 @@ const HistoryMyFoodList = styled.div`
 
     &.f_total_price {
       margin-top: auto;
-      background-color: #d00005;
+      color: #333;
+      background-color: #c1c1c1;
     }
 
-    height: 50px;
+    height: 45px;
 
     display: flex;
     justify-content: center;
@@ -244,7 +267,7 @@ const HistoryMyFood = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 50px;
+  height: 45px;
 
   & span {
     color: #777;
@@ -252,9 +275,11 @@ const HistoryMyFood = styled.div`
   }
 `;
 
-const MydeliveryStatistics = styled.div``;
-const Statistics = styled.div``;
-const StatisticsChartList = styled.div`
+const MydeliveryChartList = styled.div``;
+
+const ChartList = styled.div`
+  border: 1px solid #fff;
+
   position: relative;
 
   width: 1200px;
@@ -264,6 +289,7 @@ const StatisticsChartList = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   display: flex;
+  justify-content: center;
 
   &::after {
     position: absolute;
@@ -275,22 +301,49 @@ const StatisticsChartList = styled.div`
     z-index: 3;
   }
 `;
-const StatisticsChartItem = styled.div`
+const ChartItem = styled.div`
+  position: relative;
+
   width: calc(100% / ${props => props.totalType});
+  max-width: 150px;
+
+  z-index: 2;
 
   align-self: flex-end;
-  background-color: #00a1ff;
-  border: 1px solid #fff;
-  ${props =>
-    props.active &&
-    css`
-      background-color: #ffd300;
-    `}
 
   transition: height 4s ease-in-out 1s;
   text-align: center;
 
-  height: calc(90% * (${props => props.qty} / ${props => props.maxQty}));
+  height: calc(80% * (${props => props.qty} / ${props => props.maxQty}));
+
+  &::after {
+    position: absolute;
+    padding-top: 10px;
+    bottom: 0;
+
+    display: block;
+
+    content: '${props => props.name}  ${props => props.qty}회';
+    line-break: strict;
+
+    border: 1px solid #fff;
+    background-color: #ffd300;
+
+    font-size: 25px;
+
+    width: 100%;
+
+    z-index: -1;
+
+    animation: ${moveUp} 3s linear;
+
+    height: 100%;
+    ${props =>
+      props.active &&
+      css`
+        background-color: #00a1ff;
+      `}
+  }
 
   & span {
     display: inline-block;
