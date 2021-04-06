@@ -39,9 +39,9 @@ const Mydelivery = () => {
       for (let i in onlyfood) {
         onlyfoodList.push(
           <HistoryMyFood key={[i]}>
-            <span>제품명:{onlyfood[i].name}</span>
-            <span>가격:{onlyfood[i].price}원</span>
-            <span>수량:{onlyfood[i].qty}개</span>
+            <span className="f_name">{onlyfood[i].name}</span>
+            <span className="f_price">{onlyfood[i].price}원</span>
+            <span className="f_qty">{onlyfood[i].qty}개</span>
           </HistoryMyFood>
         );
       }
@@ -98,6 +98,7 @@ const Mydelivery = () => {
     );
   }, [user]);
 
+  console.log(new Date().year);
   return (
     <WapperMydelivery>
       <Wrapper>
@@ -111,6 +112,7 @@ const Mydelivery = () => {
           </Profile>
           <LogoutBtn onClick={onClickLogout}>로그아웃</LogoutBtn>
         </MydeliveryProfile>
+
         <MydeliveryHistoryMyFood>
           <Slider {...settings}>{renderMyHistory()}</Slider>
         </MydeliveryHistoryMyFood>
@@ -132,6 +134,8 @@ const Wrapper = styled.div`
 
 const MydeliveryProfile = styled.div``;
 const Profile = styled.div`
+  border: 1px solid #fff;
+  border-bottom: none;
   width: 400px;
   height: 400px;
 
@@ -151,7 +155,7 @@ const ProfileImg = styled.div`
   &::after {
     position: absolute;
     left: 50%;
-    bottom: 10%;
+    bottom: 5%;
     transform: translate(-50%);
 
     text-align: center;
@@ -160,11 +164,12 @@ const ProfileImg = styled.div`
     font-size: 20px;
     color: #000;
     display: inline-block;
-    height: 20px;
+    height: 40px;
   }
 `;
 
 const LogoutBtn = styled.div`
+  border: 1px solid #fff;
   width: 400px;
   height: 100px;
 
@@ -192,9 +197,36 @@ const MydeliveryHistoryMyFood = styled.div`
 `;
 const HistoryMyFoodList = styled.div`
   height: 500px;
-  background-color: red;
+  background-color: #ffd300;
+
+  display: flex !important;
+  flex-direction: column;
+
+  & > p {
+    margin-top: auto;
+
+    height: 60px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
-const HistoryMyFood = styled.div``;
+const HistoryMyFood = styled.div`
+  background-color: #fff;
+
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 55px;
+
+  & span {
+    color: #777;
+    margin-left: 5px;
+  }
+`;
 
 const MydeliveryStatistics = styled.div``;
 const Statistics = styled.div``;
