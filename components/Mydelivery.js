@@ -105,6 +105,8 @@ const Mydelivery = () => {
           <Profile>
             <ProfileImg
               src={user.user.name ? '/images/login_google.png' : '/images/login_anonymous.png'}
+              name={user.user.name ? user.user.name : '비회원'}
+              email={user.user.name ? user.user.email : ''}
             />
           </Profile>
           <LogoutBtn onClick={onClickLogout}>로그아웃</LogoutBtn>
@@ -132,18 +134,55 @@ const MydeliveryProfile = styled.div``;
 const Profile = styled.div`
   width: 400px;
   height: 400px;
+
+  background-color: tomato;
 `;
 const ProfileImg = styled.div`
+  position: relative;
   background-image: url(${props => props.src});
-  background-size: contain;
+  background-size: cover;
+  background-position: -45px center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  background-color: #ffd300;
   width: 100%;
   height: 100%;
+
+  &::after {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translate(-50%);
+
+    text-align: center;
+    content: '${props => props.name}님 ${props => props.email}';
+
+    font-size: 20px;
+    color: #000;
+    display: inline-block;
+    height: 20px;
+  }
 `;
 
 const LogoutBtn = styled.div`
   width: 400px;
   height: 100px;
-  background-color: blue;
+
+  transition: all 0.3s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+
+  background-color: #00a1ff;
+
+  &:hover {
+    font-size: 40px;
+  }
 `;
 
 const MydeliveryHistoryMyFood = styled.div`
