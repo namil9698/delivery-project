@@ -98,7 +98,7 @@ const Mydelivery = () => {
     );
   }, [user]);
 
-  console.log(new Date().year);
+  console.log(new Date());
   return (
     <WapperMydelivery>
       <Wrapper>
@@ -196,6 +196,8 @@ const MydeliveryHistoryMyFood = styled.div`
   background-color: transparent;
 `;
 const HistoryMyFoodList = styled.div`
+  border: 1px solid #fff;
+
   height: 500px;
   background-color: #ffd300;
 
@@ -206,6 +208,7 @@ const HistoryMyFoodList = styled.div`
     margin-top: auto;
 
     height: 60px;
+    background-color: #d00005;
 
     display: flex;
     justify-content: center;

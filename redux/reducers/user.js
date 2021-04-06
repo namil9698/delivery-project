@@ -42,7 +42,7 @@ export const logoutRequest = () => {
   };
 };
 
-export const orderSaveRequest = (myFoodList, user, totalPrice, history) => {
+export const orderSaveRequest = (myFoodList, user, totalPrice, history, orderDate) => {
   return {
     type: ORDER_SAVE_REQUEST,
     data: {
@@ -50,6 +50,7 @@ export const orderSaveRequest = (myFoodList, user, totalPrice, history) => {
       user,
       totalPrice,
       history,
+      orderDate,
     },
   };
 };

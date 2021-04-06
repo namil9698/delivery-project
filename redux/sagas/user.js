@@ -74,6 +74,7 @@ function* orderSaveAction(action) {
           {
             ...action.data.myFoodList,
             totalPrice: action.data.totalPrice,
+            orderDate: action.data.orderDate,
           },
         ],
       });
@@ -87,6 +88,7 @@ function* orderSaveAction(action) {
           {
             ...action.data.myFoodList,
             totalPrice: action.data.totalPrice,
+            orderDate: action.data.orderDate,
           },
         ],
       });
