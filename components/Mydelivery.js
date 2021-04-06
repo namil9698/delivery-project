@@ -34,6 +34,7 @@ const Mydelivery = () => {
     return myHistory.map((item, index) => {
       const onlyfood = { ...item };
       delete onlyfood.totalPrice;
+      delete onlyfood.orderDate;
       renderStatistics(onlyfood);
       let onlyfoodList = [];
       for (let i in onlyfood) {
@@ -47,8 +48,12 @@ const Mydelivery = () => {
       }
       return (
         <HistoryMyFoodList key={index}>
+          <p className="f_date">
+            {item.orderDate.year}년 {item.orderDate.month}월 {item.orderDate.date}일
+            {item.orderDate.hour}시 {item.orderDate.minute}분
+          </p>
           {onlyfoodList}
-          <p>총:{item.totalPrice}원</p>
+          <p className="f_total_price">총:{item.totalPrice}원</p>
         </HistoryMyFoodList>
       );
     });
@@ -205,10 +210,16 @@ const HistoryMyFoodList = styled.div`
   flex-direction: column;
 
   & > p {
-    margin-top: auto;
+    &.f_date {
+      font-size: 20px;
+    }
 
-    height: 60px;
-    background-color: #d00005;
+    &.f_total_price {
+      margin-top: auto;
+      background-color: #d00005;
+    }
+
+    height: 50px;
 
     display: flex;
     justify-content: center;
@@ -223,7 +234,7 @@ const HistoryMyFood = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 55px;
+  height: 50px;
 
   & span {
     color: #777;
