@@ -65,6 +65,7 @@ const Mydelivery = () => {
     myHistory.map((item, index) => {
       const onlyfood = { ...item };
       delete onlyfood.totalPrice;
+      delete onlyfood.orderDate;
       for (let i in onlyfood) {
         const targetIndex = myStatistics.findIndex(item => item.name === onlyfood[i].name);
         if (targetIndex > -1) {
@@ -82,8 +83,14 @@ const Mydelivery = () => {
     });
 
     let totalQty = 0;
+    let maxQty = 0;
     myStatistics.map(item => {
-      return (totalQty += item.qty);
+      totalQty += item.qty;
+      if (maxQty < item.qty) {
+        maxQty = item.qty;
+      }
+
+      return totalQty, maxQty;
     });
 
     return (
@@ -95,8 +102,11 @@ const Mydelivery = () => {
             qty={item.qty}
             totalType={myStatistics.length}
             totalQty={totalQty}
+            maxQty={maxQty}
+            active={item.qty === maxQty ? true : false}
           >
-            {item.name}
+            <span>{item.name}</span>
+            <p>{item.qty}</p>
           </StatisticsChartItem>
         ))}
       </StatisticsChartList>
@@ -249,15 +259,48 @@ const StatisticsChartList = styled.div`
 
   width: 1200px;
   height: 500px;
-  background-color: #fff;
+  background-color: tomato;
+  background-image: url('/images/statistics.png');
+  background-size: contain;
+  background-repeat: no-repeat;
   display: flex;
+
+  &::after {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 30px;
+    display: block;
+    content: '나의 푸드차트';
+    z-index: 3;
+  }
 `;
 const StatisticsChartItem = styled.div`
   width: calc(100% / ${props => props.totalType});
-  height: calc(
-    100% * (${props => props.qty} / (${props => props.totalQty} - ${props => props.totalType}))
-  );
-  align-self: flex-end;
 
-  background-color: red;
+  align-self: flex-end;
+  background-color: #00a1ff;
+  border: 1px solid #fff;
+  ${props =>
+    props.active &&
+    css`
+      background-color: #ffd300;
+    `}
+
+  transition: height 4s ease-in-out 1s;
+  text-align: center;
+
+  height: calc(90% * (${props => props.qty} / ${props => props.maxQty}));
+
+  & span {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  & p {
+    height: 20px;
+
+    display: block;
+  }
 `;
