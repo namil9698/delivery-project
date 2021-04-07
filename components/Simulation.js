@@ -243,6 +243,10 @@ const SimulationWrapper = styled.div`
 
 const SimulationContents = styled.div`
   display: flex;
+
+  @media all and (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 //Food
@@ -254,6 +258,12 @@ const CategoryList = styled.ul`
   background-color: #fff;
   display: flex;
   align-items: center;
+
+  @media all and (max-width: 1200px) {
+    height: 50px;
+    font-size: 12px;
+    padding: 0;
+  }
 `;
 const CategoryItem = styled.li`
   position: relative;
@@ -271,6 +281,10 @@ const CategoryItem = styled.li`
   font-size: 30px;
   font-weight: 800;
 
+  @media all and (max-width: 1200px) {
+    font-size: 20px;
+  }
+
   & ::before {
     content: '';
     display: block;
@@ -278,6 +292,10 @@ const CategoryItem = styled.li`
     background-size: 100% 100%;
     width: 50px;
     height: 50px;
+
+    @media all and (max-width: 1200px) {
+      display: none;
+    }
   }
 
   & ::after {
@@ -295,6 +313,11 @@ const CategoryItem = styled.li`
     transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s,
       //스케일 후 넓이 애니메이션
       background-color 0.1s;
+
+    @media all and (max-width: 1200px) {
+      height: 5px;
+      transition: none;
+    }
   }
 
   &:hover {
@@ -322,6 +345,10 @@ const FoodList = styled.ul`
   background-color: #ffd300;
   border: 1px solid #fff;
   box-sizing: border-box;
+
+  @media all and (max-width: 1200px) {
+    height: 50px;
+  }
 `;
 const FoodItem = styled.li`
   flex: 1;
@@ -373,6 +400,11 @@ const Order = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  @media all and (max-width: 1200px) {
+    order: 2;
+    width: 100%;
+  }
 `;
 
 const OrderList = styled.div``;
@@ -524,5 +556,9 @@ const MyFood = styled.div`
 const Wrapper = styled.div`
   &.food_preview {
     width: 70%;
+
+    @media all and (max-width: 1200px) {
+      order: 1;
+    }
   }
 `;
