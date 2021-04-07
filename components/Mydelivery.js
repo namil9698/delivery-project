@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import styled, { css, keyframes } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, useStore } from 'react-redux';
 import { useRouter } from 'next/router';
 import { logoutRequest } from '../redux/reducers/user';
 import Slider from 'react-slick';
@@ -137,7 +137,11 @@ const Mydelivery = () => {
 
         <MydeliveryHistoryMyFood>
           <p>주문내역</p>
-          <Slider {...settings}>{renderMyHistory()}</Slider>
+          {user.userData.history.length > 0 ? (
+            <Slider {...settings}>{renderMyHistory()}</Slider>
+          ) : (
+            <span>주문내역이 없어요</span>
+          )}
         </MydeliveryHistoryMyFood>
       </Wrapper>
 
@@ -272,6 +276,14 @@ const MydeliveryHistoryMyFood = styled.div`
     @media all and (max-width: 1200px) {
       font-size: 20px;
     }
+  }
+
+  & > span {
+    display: block;
+    width: 150px;
+    margin: 100px auto;
+    font-size: 20px;
+    color: #fff;
   }
 `;
 const HistoryMyFoodList = styled.div`
