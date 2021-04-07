@@ -243,6 +243,10 @@ const SimulationWrapper = styled.div`
 
 const SimulationContents = styled.div`
   display: flex;
+
+  @media all and (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 //Food
@@ -254,6 +258,12 @@ const CategoryList = styled.ul`
   background-color: #fff;
   display: flex;
   align-items: center;
+
+  @media all and (max-width: 1200px) {
+    height: 50px;
+    font-size: 12px;
+    padding: 0;
+  }
 `;
 const CategoryItem = styled.li`
   position: relative;
@@ -271,6 +281,10 @@ const CategoryItem = styled.li`
   font-size: 30px;
   font-weight: 800;
 
+  @media all and (max-width: 1200px) {
+    font-size: 20px;
+  }
+
   & ::before {
     content: '';
     display: block;
@@ -278,6 +292,10 @@ const CategoryItem = styled.li`
     background-size: 100% 100%;
     width: 50px;
     height: 50px;
+
+    @media all and (max-width: 1200px) {
+      display: none;
+    }
   }
 
   & ::after {
@@ -295,6 +313,11 @@ const CategoryItem = styled.li`
     transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s,
       //스케일 후 넓이 애니메이션
       background-color 0.1s;
+
+    @media all and (max-width: 1200px) {
+      height: 5px;
+      transition: none;
+    }
   }
 
   &:hover {
@@ -322,6 +345,10 @@ const FoodList = styled.ul`
   background-color: #ffd300;
   border: 1px solid #fff;
   box-sizing: border-box;
+
+  @media all and (max-width: 1200px) {
+    height: 50px;
+  }
 `;
 const FoodItem = styled.li`
   flex: 1;
@@ -344,6 +371,10 @@ const FoodItem = styled.li`
     width: 20px;
     height: 20px;
     transition: all 0.1s ease;
+  }
+
+  @media all and (max-width: 1200px) {
+    font-size: 15px;
   }
 
   ${props =>
@@ -373,6 +404,13 @@ const Order = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  @media all and (max-width: 1200px) {
+    border: none;
+    order: 2;
+    height: 570px;
+    width: 100%;
+  }
 `;
 
 const OrderList = styled.div``;
@@ -383,6 +421,11 @@ const OrderListHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media all and (max-width: 1200px) {
+    height: 60px;
+    font-size: 30px;
+  }
 `;
 
 const OrderItem = styled.div`
@@ -409,6 +452,19 @@ const OrderItem = styled.div`
   & span {
     margin-left: 10px;
   }
+
+  @media all and (max-width: 1200px) {
+    height: 50px;
+    padding: 0 20px;
+
+    & p {
+      font-size: 15px;
+    }
+
+    & span {
+      margin-left: 5px;
+    }
+  }
 `;
 const OrderTotal = styled.div`
   margin-top: auto;
@@ -421,6 +477,10 @@ const OrderTotalPrice = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media all and (max-width: 1200px) {
+    height: 40px;
+  }
 `;
 const OrderTotalRequest = styled.div`
   font-size: 40px;
@@ -433,6 +493,10 @@ const OrderTotalRequest = styled.div`
   justify-content: center;
   align-items: center;
 
+  @media all and (max-width: 1200px) {
+    font-size: 35px;
+    height: 70px;
+  }
   & span {
     transition: all 0.1s ease;
   }
@@ -480,6 +544,14 @@ const Preview = styled.div`
   background-color: tomato;
 
   transition: all 0.5s ease;
+
+  @media all and (max-width: 1200px) {
+    width: 320px;
+    height: 300px;
+    margin: 0 auto;
+    background-size: 320px 300px;
+    background-position: -10px 20px;
+  }
 `;
 const PreviewMyFood = styled.div`
   position: relative;
@@ -508,15 +580,11 @@ const MyFood = styled.div`
   background-position: center;
   background-repeat: no-repeat;
 
-  &::after {
-    content: '${props => props.qty}';
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    display: block;
-    color: #d00005;
-    width: 20px;
-    height: 20px;
+  @media all and (max-width: 1200px) {
+    width: calc(120px - ${props => props.location[1]} * 100px);
+    height: calc(120px - ${props => props.location[1]} * 100px);
+    left: calc(${props => props.location[0]}*60% + 100px);
+    bottom: calc(${props => props.location[1]} * 120px + (${props => props.row}* 10px));
   }
 `;
 
@@ -524,5 +592,11 @@ const MyFood = styled.div`
 const Wrapper = styled.div`
   &.food_preview {
     width: 70%;
+
+    @media all and (max-width: 1200px) {
+      order: 1;
+      width: 100%;
+      background-color: tomato;
+    }
   }
 `;
