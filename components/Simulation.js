@@ -464,6 +464,10 @@ const OrderItem = styled.div`
     & span {
       margin-left: 5px;
     }
+
+    &:hover {
+      transform: none;
+    }
   }
 `;
 const OrderTotal = styled.div`
