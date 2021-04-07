@@ -139,9 +139,17 @@ const Simulation = () => {
   //선택 음식 주문.(DB저장)
   const orderRequest = useCallback(
     (myFoodList, user) => {
+      const date = new Date();
+      const orderDate = {
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+      };
       if (myFoodList.length > 0) {
         const totalPrice = getTotalPrice();
-        dispatch(orderSaveRequest(myFoodList, user, totalPrice, history));
+        dispatch(orderSaveRequest(myFoodList, user, totalPrice, history, orderDate));
       } else {
         alert('장바구니가 비어있습니다.');
       }
@@ -417,7 +425,7 @@ const OrderTotalPrice = styled.div`
 const OrderTotalRequest = styled.div`
   font-size: 40px;
   background-color: #d00005;
-  height: 105px;
+  height: 118px;
 
   cursor: pointer;
 
