@@ -373,6 +373,10 @@ const FoodItem = styled.li`
     transition: all 0.1s ease;
   }
 
+  @media all and (max-width: 1200px) {
+    font-size: 15px;
+  }
+
   ${props =>
     props.active &&
     css`
@@ -512,6 +516,14 @@ const Preview = styled.div`
   background-color: tomato;
 
   transition: all 0.5s ease;
+
+  @media all and (max-width: 1200px) {
+    width: 320px;
+    height: 300px;
+    margin: 0 auto;
+    background-size: 320px 300px;
+    background-position: -10px 20px;
+  }
 `;
 const PreviewMyFood = styled.div`
   position: relative;
@@ -540,15 +552,11 @@ const MyFood = styled.div`
   background-position: center;
   background-repeat: no-repeat;
 
-  &::after {
-    content: '${props => props.qty}';
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    display: block;
-    color: #d00005;
-    width: 20px;
-    height: 20px;
+  @media all and (max-width: 1200px) {
+    width: calc(120px - ${props => props.location[1]} * 100px);
+    height: calc(120px - ${props => props.location[1]} * 100px);
+    left: calc(${props => props.location[0]}*60% + 100px);
+    bottom: calc(${props => props.location[1]} * 120px + (${props => props.row}* 10px));
   }
 `;
 
@@ -559,6 +567,8 @@ const Wrapper = styled.div`
 
     @media all and (max-width: 1200px) {
       order: 1;
+      width: 100%;
+      background-color: tomato;
     }
   }
 `;
