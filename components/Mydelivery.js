@@ -27,11 +27,20 @@ const Mydelivery = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 1.1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   const renderMyHistory = useCallback(() => {
     const myHistory = user.userData.history;
-    return myHistory.map((item, index) => {
+    return myHistory.reverse().map((item, index) => {
       const onlyfood = { ...item };
       delete onlyfood.totalPrice;
       delete onlyfood.orderDate;
@@ -156,6 +165,10 @@ const moveUp = keyframes`
 const WapperMydelivery = styled.div``;
 const Wrapper = styled.div`
   display: flex;
+
+  @media all and (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 
 const MydeliveryProfile = styled.div``;
@@ -166,6 +179,11 @@ const Profile = styled.div`
   height: 400px;
 
   background-color: tomato;
+
+  @media all and (max-width: 1200px) {
+    width: 100%;
+    height: 320px;
+  }
 `;
 const ProfileImg = styled.div`
   position: relative;
@@ -177,6 +195,12 @@ const ProfileImg = styled.div`
   background-color: #ffd300;
   width: 100%;
   height: 100%;
+
+  @media all and (max-width: 1200px) {
+    margin: 0 auto;
+    width: 320px;
+    height: 320px;
+  }
 
   &::after {
     position: absolute;
@@ -191,6 +215,10 @@ const ProfileImg = styled.div`
     color: #000;
     display: inline-block;
     height: 40px;
+
+    @media all and (max-width: 1200px) {
+      font-size: 15px;
+    }
   }
 `;
 
@@ -214,6 +242,12 @@ const LogoutBtn = styled.div`
   &:hover {
     font-size: 40px;
   }
+
+  @media all and (max-width: 1200px) {
+    width: 100%;
+    height: 80px;
+    font-size: 20px;
+  }
 `;
 
 const MydeliveryHistoryMyFood = styled.div`
@@ -223,6 +257,10 @@ const MydeliveryHistoryMyFood = styled.div`
   height: 500px;
   background-color: tomato;
 
+  @media all and (max-width: 1200px) {
+    width: 100%;
+  }
+
   & > p {
     height: 50px;
 
@@ -230,6 +268,10 @@ const MydeliveryHistoryMyFood = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media all and (max-width: 1200px) {
+      font-size: 20px;
+    }
   }
 `;
 const HistoryMyFoodList = styled.div`
@@ -244,6 +286,10 @@ const HistoryMyFoodList = styled.div`
   & > p {
     &.f_date {
       font-size: 20px;
+
+      @media all and (max-width: 1200px) {
+        font-size: 15px;
+      }
     }
 
     &.f_total_price {
@@ -291,6 +337,12 @@ const ChartList = styled.div`
   display: flex;
   justify-content: center;
 
+  @media all and (max-width: 1200px) {
+    width: 100%;
+    background-size: cover;
+    background-position: -100px 20px;
+  }
+
   &::after {
     position: absolute;
     right: 20px;
@@ -299,6 +351,10 @@ const ChartList = styled.div`
     display: block;
     content: '나의 푸드차트';
     z-index: 3;
+
+    @media all and (max-width: 1200px) {
+      font-size: 20px;
+    }
   }
 `;
 const ChartItem = styled.div`
@@ -318,6 +374,10 @@ const ChartItem = styled.div`
 
   &::after {
     position: absolute;
+
+    box-sizing: border-box;
+
+    padding: 0 5px;
     padding-top: 10px;
     bottom: 0;
 
@@ -329,7 +389,7 @@ const ChartItem = styled.div`
     border: 1px solid #fff;
     background-color: #ffd300;
 
-    font-size: 25px;
+    font-size: 20px;
 
     width: 100%;
 
@@ -343,6 +403,10 @@ const ChartItem = styled.div`
       css`
         background-color: #00a1ff;
       `}
+
+    @media all and (max-width: 1200px) {
+      font-size: 12px;
+    }
   }
 
   & span {
