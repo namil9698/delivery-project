@@ -406,6 +406,7 @@ const Order = styled.div`
   flex-direction: column;
 
   @media all and (max-width: 1200px) {
+    border: none;
     order: 2;
     height: 570px;
     width: 100%;
