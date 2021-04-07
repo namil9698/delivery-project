@@ -407,6 +407,7 @@ const Order = styled.div`
 
   @media all and (max-width: 1200px) {
     order: 2;
+    height: 570px;
     width: 100%;
   }
 `;
@@ -419,6 +420,11 @@ const OrderListHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media all and (max-width: 1200px) {
+    height: 60px;
+    font-size: 30px;
+  }
 `;
 
 const OrderItem = styled.div`
@@ -445,6 +451,19 @@ const OrderItem = styled.div`
   & span {
     margin-left: 10px;
   }
+
+  @media all and (max-width: 1200px) {
+    height: 50px;
+    padding: 0 20px;
+
+    & p {
+      font-size: 15px;
+    }
+
+    & span {
+      margin-left: 5px;
+    }
+  }
 `;
 const OrderTotal = styled.div`
   margin-top: auto;
@@ -457,6 +476,10 @@ const OrderTotalPrice = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media all and (max-width: 1200px) {
+    height: 40px;
+  }
 `;
 const OrderTotalRequest = styled.div`
   font-size: 40px;
@@ -469,6 +492,10 @@ const OrderTotalRequest = styled.div`
   justify-content: center;
   align-items: center;
 
+  @media all and (max-width: 1200px) {
+    font-size: 35px;
+    height: 70px;
+  }
   & span {
     transition: all 0.1s ease;
   }
