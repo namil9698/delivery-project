@@ -9,6 +9,7 @@ const Simulation = () => {
   const dispatch = useDispatch();
   const { isLogin } = useSelector(state => state.user);
   const user = useSelector(state => state.user.user);
+  const isPopup = useSelector(state => state.user.popup);
   const { history } = useSelector(state => state.user.userData);
   const myFoodList = useSelector(state => state.simulation.myFoodList);
 
@@ -227,6 +228,16 @@ const Simulation = () => {
           </Preview>
         </Wrapper>
       </SimulationContents>
+      {isPopup ? (
+        <SimulationPopup>
+          <Popup>
+            <PopupImg src="/images/success.png" />
+            <PopupBtn>확인</PopupBtn>
+          </Popup>
+        </SimulationPopup>
+      ) : (
+        ''
+      )}
     </SimulationWrapper>
   );
 };
@@ -234,6 +245,7 @@ const Simulation = () => {
 export default Simulation;
 
 const SimulationWrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: #fff;
@@ -603,4 +615,67 @@ const Wrapper = styled.div`
       background-color: tomato;
     }
   }
+`;
+
+//popup
+
+const SimulationPopup = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 333;
+
+  backdrop-filter: blur(10px);
+`;
+const Popup = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+  top: 10%;
+  width: 500px;
+  height: 500px;
+`;
+
+const PopupImg = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  background-image: url(${props => props.src});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+
+  background-color: #fff;
+
+  width: 100%;
+  height: 100%;
+
+  &::after {
+    display: block;
+    margin-top: 50px;
+    text-align: center;
+    content: '주문이 완료되었습니다!';
+    color: #d00005;
+    font-size: 40px;
+  }
+`;
+const PopupBtn = styled.div`
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #00a1ff;
+  height: 100px;
+  font-size: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
 `;
