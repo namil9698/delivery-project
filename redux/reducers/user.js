@@ -11,6 +11,7 @@ export const initialState = {
   },
   lodding: false,
   isLogin: false,
+  popup: false,
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -28,6 +29,9 @@ export const ORDER_SAVE_FAILURE = 'ORDER_SAVE_FAILURE';
 export const GET_USERDATA_REQUEST = 'GET_USERDATA_REQUEST';
 export const GET_USERDATA_SUCCESS = 'GET_USERDATA_SUCCESS';
 export const GET_USERDATA_FAILURE = 'GET_USERDATA_FAILURE';
+
+export const ORDER_POPUP_OPEN = 'ORDER_POPUP_OPEN';
+export const ORDER_POPUP_CLOSE = 'ORDER_POPUP_CLOSE';
 
 export const loginRequest = data => {
   return {
@@ -137,6 +141,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         lodding: false,
+      };
+    case ORDER_POPUP_OPEN:
+      return {
+        ...state,
+        popup: true,
+      };
+    case ORDER_POPUP_CLOSE:
+      return {
+        ...state,
+        popup: false,
       };
 
     default:
