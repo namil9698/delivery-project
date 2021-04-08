@@ -15,6 +15,7 @@ import {
   LOG_OUT_FAILURE,
   ORDER_SAVE_FAILURE,
   GET_USERDATA_FAILURE,
+  ORDER_POPUP_OPEN,
 } from '../reducers/user';
 
 //ACTION
@@ -100,6 +101,9 @@ function* orderSaveAction(action) {
     yield put({
       type: GET_USERDATA_REQUEST,
       data: user,
+    });
+    yield put({
+      type: ORDER_POPUP_OPEN,
     });
   } catch (err) {
     console.log('err.message:', err.message);

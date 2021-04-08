@@ -5,7 +5,7 @@ const Popup = () => {
   return (
     <PopupWrapper>
       <PopupShadow />
-      <PopupBlock>로딩중...</PopupBlock>
+      <PopupImg src="/images/loading.svg" />
     </PopupWrapper>
   );
 };
@@ -14,6 +14,8 @@ export default Popup;
 
 const PopupWrapper = styled.div`
   position: absolute;
+
+  z-index: 999;
   top: 0;
   left: 0;
   width: 100vw;
@@ -29,12 +31,15 @@ const PopupShadow = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
-const PopupBlock = styled.div`
+const PopupImg = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 100px;
+  background-image: url(${props => props.src});
+
+  background-size: 100% 100%;
+  width: 50%;
+  height: 50%;
   text-align: center;
 `;
