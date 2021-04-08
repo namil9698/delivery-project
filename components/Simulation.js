@@ -1,12 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
+import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { chageMyFoodList, deleteMyFood, addMyFood, subMyFood } from '../redux/reducers/simulation';
-import { orderSaveRequest } from '../redux/reducers/user';
+import { orderSaveRequest, RequsetOrderPopupClose } from '../redux/reducers/user';
 
 const Simulation = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { isLogin } = useSelector(state => state.user);
   const user = useSelector(state => state.user.user);
   const isPopup = useSelector(state => state.user.popup);
@@ -214,6 +216,7 @@ const Simulation = () => {
                   orderRequest(myFoodList, user);
                 } else {
                   window.alert('로그인필요');
+                  router.push('/login').then(() => window.scrollTo(0, 0));
                 }
               }}
             >
@@ -232,7 +235,14 @@ const Simulation = () => {
         <SimulationPopup>
           <Popup>
             <PopupImg src="/images/success.png" />
-            <PopupBtn>확인</PopupBtn>
+            <PopupBtn
+              onClick={() => {
+                dispatch(RequsetOrderPopupClose());
+                router.push('/mydelivery').then(() => window.scrollTo(0, 0));
+              }}
+            >
+              확인
+            </PopupBtn>
           </Popup>
         </SimulationPopup>
       ) : (
