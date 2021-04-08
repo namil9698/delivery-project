@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { loginRequest, logoutRequest } from '../redux/reducers/user';
+import { loginRequest } from '../redux/reducers/user';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -21,33 +21,20 @@ const Login = () => {
     dispatch(loginRequest(data));
   };
 
-  //로그아웃
-  const onClickLogout = () => {
-    dispatch(logoutRequest());
-  };
-
   return (
-    <>
-      {isLogin ? (
-        <LoginButton onClick={onClickLogout}>로그아웃</LoginButton>
-      ) : (
-        <>
-          <LoginButton>
-            <Button>
-              <ButtonImg onClick={() => onClickLogin('google')} className="google">
-                <Img src="/images/login_google.png" />
-                <Text>구글로 로그인</Text>
-              </ButtonImg>
+    <LoginButton>
+      <Button>
+        <ButtonImg onClick={() => onClickLogin('google')} className="google">
+          <Img src="/images/login_google.png" />
+          <Text>구글로 로그인</Text>
+        </ButtonImg>
 
-              <ButtonImg onClick={() => onClickLogin('anonymous')} className="anonymous">
-                <Img src="/images/login_anonymous.png" />
-                <Text>비회원 로그인</Text>
-              </ButtonImg>
-            </Button>
-          </LoginButton>
-        </>
-      )}
-    </>
+        <ButtonImg onClick={() => onClickLogin('anonymous')} className="anonymous">
+          <Img src="/images/login_anonymous.png" />
+          <Text>비회원 로그인</Text>
+        </ButtonImg>
+      </Button>
+    </LoginButton>
   );
 };
 
