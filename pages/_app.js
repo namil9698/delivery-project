@@ -21,7 +21,12 @@ const App = ({ Component }) => {
       </Head>
 
       {islodding ? (
-        <Popup />
+        <>
+          <Popup />
+          <Layout>
+            <Component />
+          </Layout>
+        </>
       ) : (
         <Layout>
           <Component />
