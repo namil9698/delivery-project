@@ -104,7 +104,6 @@ function* orderSaveAction(action) {
     });
     yield put({
       type: ORDER_POPUP_OPEN,
-      data: user,
     });
   } catch (err) {
     console.log('err.message:', err.message);
