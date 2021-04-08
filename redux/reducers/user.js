@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux';
-
 export const initialState = {
   user: {
     name: '',
@@ -63,6 +61,12 @@ export const getUserDataRequest = data => {
   return {
     type: GET_USERDATA_REQUEST,
     data,
+  };
+};
+
+export const RequsetOrderPopupClose = () => {
+  return {
+    type: ORDER_POPUP_CLOSE,
   };
 };
 
