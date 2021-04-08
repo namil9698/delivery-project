@@ -7,12 +7,12 @@ import { useSelector } from 'react-redux';
 const simulation = () => {
   const router = useRouter();
   const { isLogin } = useSelector(state => state.user);
-  useEffect(() => {
-    if (!isLogin) {
-      alert('로그인이 필요한 서비스입니다..');
-      router.push('/').then(() => window.scrollTo(0, 0));
-    }
-  }, [isLogin]);
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     alert('로그인이 필요한 서비스입니다..');
+  //     router.push('/').then(() => window.scrollTo(0, 0));
+  //   }
+  // }, [isLogin]);
   return (
     <>
       <Simulation />

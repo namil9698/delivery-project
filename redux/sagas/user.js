@@ -1,6 +1,7 @@
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 // import { logInAPI, logOutAPI } from '../firebase';
 import firebase from '../firebase';
+import { useRouter } from 'next/router';
 
 import {
   LOG_IN_SUCCESS,

@@ -3,21 +3,28 @@ import styled, { css } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { loginRequest, logoutRequest } from '../redux/reducers/user';
-import Link from 'next/link';
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { isLogin } = useSelector(state => state.user);
 
-  const onClickLogin = useCallback(data => {
-    dispatch(loginRequest(data));
-    router.push('/simulation').then(() => window.scrollTo(0, 0));
-  }, []);
+  //로그인 여부 체크, 로그인 성공 or 현재 로그인중일경우
+  useEffect(() => {
+    if (isLogin) {
+      router.push('/simulation').then(() => window.scrollTo(0, 0));
+    }
+  }, [isLogin]);
 
-  const onClickLogout = useCallback(() => {
+  //로그인
+  const onClickLogin = data => {
+    dispatch(loginRequest(data));
+  };
+
+  //로그아웃
+  const onClickLogout = () => {
     dispatch(logoutRequest());
-  }, []);
+  };
 
   return (
     <>

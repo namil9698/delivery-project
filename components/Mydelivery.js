@@ -9,12 +9,6 @@ const Mydelivery = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector(state => state.user);
-  const [toggle, setToggle] = useState(false);
-  const [height, setHieght] = useState({
-    window: 0,
-    client: 0,
-    scroll: 0,
-  });
 
   const onClickLogout = useCallback(() => {
     dispatch(logoutRequest());
