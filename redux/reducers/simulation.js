@@ -6,6 +6,7 @@ export const CHANGE_MYFOODLIST = 'CHANGE_MYFOODLIST';
 export const DELETE_MYFOOD = 'DELETE_MYFOOD';
 export const ADD_MYFOOD = 'ADD_MYFOOD';
 export const SUB_MYFOOD = 'SUB_MYFOOD';
+export const RESET_MYFOODLIST = 'RESET_MYFOODLIST';
 
 export const chageMyFoodList = data => {
   return {
@@ -63,6 +64,11 @@ const reducer = (state = initialState, action) => {
         myFoodList: state.myFoodList.map(food =>
           food.id === action.data.id ? { ...food, qty: food.qty - 1 } : food
         ),
+      };
+    case RESET_MYFOODLIST:
+      return {
+        ...state,
+        myFoodList: [],
       };
 
     default:

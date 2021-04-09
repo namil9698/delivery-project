@@ -18,6 +18,8 @@ import {
   ORDER_POPUP_OPEN,
 } from '../reducers/user';
 
+import { RESET_MYFOODLIST } from '../reducers/simulation';
+
 //ACTION
 function* logInAction(action) {
   try {
@@ -104,6 +106,9 @@ function* orderSaveAction(action) {
     });
     yield put({
       type: ORDER_POPUP_OPEN,
+    });
+    yield put({
+      type: RESET_MYFOODLIST,
     });
   } catch (err) {
     console.log('err.message:', err.message);
