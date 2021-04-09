@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux';
-
 export const initialState = {
   user: {
     name: '',
@@ -66,6 +64,12 @@ export const getUserDataRequest = data => {
   };
 };
 
+export const RequsetOrderPopupClose = () => {
+  return {
+    type: ORDER_POPUP_CLOSE,
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN_REQUEST:
@@ -100,7 +104,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLogin: false,
         lodding: false,
-        user: null,
+        user: {
+          name: '',
+          email: '',
+          uid: '',
+        },
+        userData: {
+          history: [],
+        },
       };
     case LOG_OUT_FAILURE:
       return {

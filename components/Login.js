@@ -1,46 +1,40 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { loginRequest, logoutRequest } from '../redux/reducers/user';
-import Link from 'next/link';
+import { loginRequest } from '../redux/reducers/user';
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { isLogin } = useSelector(state => state.user);
 
-  const onClickLogin = useCallback(data => {
-    dispatch(loginRequest(data));
-    router.push('/simulation').then(() => window.scrollTo(0, 0));
-  }, []);
+  //로그인 여부 체크, 로그인 성공 or 현재 로그인중일경우
+  useEffect(() => {
+    if (isLogin) {
+      router.push('/simulation').then(() => window.scrollTo(0, 0));
+    }
+  }, [isLogin]);
 
-  const onClickLogout = useCallback(() => {
-    dispatch(logoutRequest());
-  }, []);
+  //로그인
+  const onClickLogin = data => {
+    dispatch(loginRequest(data));
+  };
 
   return (
-    <>
-      {isLogin ? (
-        <LoginButton onClick={onClickLogout}>로그아웃</LoginButton>
-      ) : (
-        <>
-          <LoginButton>
-            <Button>
-              <ButtonImg onClick={() => onClickLogin('google')} className="google">
-                <Img src="/images/login_google.png" />
-                <Text>구글로 로그인</Text>
-              </ButtonImg>
+    <LoginButton>
+      <Button>
+        <ButtonImg onClick={() => onClickLogin('google')} className="google">
+          <Img src="/images/login_google.png" />
+          <Text>구글로 로그인</Text>
+        </ButtonImg>
 
-              <ButtonImg onClick={() => onClickLogin('anonymous')} className="anonymous">
-                <Img src="/images/login_anonymous.png" />
-                <Text>비회원 로그인</Text>
-              </ButtonImg>
-            </Button>
-          </LoginButton>
-        </>
-      )}
-    </>
+        <ButtonImg onClick={() => onClickLogin('anonymous')} className="anonymous">
+          <Img src="/images/login_anonymous.png" />
+          <Text>비회원 로그인</Text>
+        </ButtonImg>
+      </Button>
+    </LoginButton>
   );
 };
 

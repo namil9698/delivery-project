@@ -18,6 +18,8 @@ import {
   ORDER_POPUP_OPEN,
 } from '../reducers/user';
 
+import { RESET_MYFOODLIST } from '../reducers/simulation';
+
 //ACTION
 function* logInAction(action) {
   try {
@@ -54,6 +56,9 @@ function* logOutAction() {
     yield put({
       type: LOG_OUT_SUCCESS,
     });
+    yield put({
+      type: RESET_MYFOODLIST,
+    });
   } catch (err) {
     console.log('err.message:', err.message);
     yield put({
@@ -68,7 +73,8 @@ function* orderSaveAction(action) {
     const memberType = user.email && user.name ? 'member' : 'non-member';
     const myDB = firebase.firestore();
     const docRef = myDB.collection(memberType).doc(user.uid);
-    if (memberType === 'member' && action.data.history.length > 0) {
+    console.log('docRef', docRef);
+    if (action.data.history.length > 0) {
       yield call([docRef, docRef.update], {
         history: [
           ...action.data.history,
@@ -104,6 +110,9 @@ function* orderSaveAction(action) {
     });
     yield put({
       type: ORDER_POPUP_OPEN,
+    });
+    yield put({
+      type: RESET_MYFOODLIST,
     });
   } catch (err) {
     console.log('err.message:', err.message);

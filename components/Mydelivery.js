@@ -9,17 +9,18 @@ const Mydelivery = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector(state => state.user);
-  const [toggle, setToggle] = useState(false);
-  const [height, setHieght] = useState({
-    window: 0,
-    client: 0,
-    scroll: 0,
-  });
-
+  const { isLogin } = useSelector(state => state.user);
   const onClickLogout = useCallback(() => {
     dispatch(logoutRequest());
     router.push('/').then(() => window.scrollTo(0, 0));
   }, []);
+
+  // //로그인 여부.
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     router.push('/').then(() => window.scrollTo(0, 0));
+  //   }
+  // }, [isLogin]);
 
   //Slider 세팅.
   const settings = {
@@ -38,6 +39,7 @@ const Mydelivery = () => {
     ],
   };
 
+  //가장최근에 주문했던 기록순으로 랜더.
   const renderMyHistory = useCallback(() => {
     const myHistory = user.userData.history;
     return myHistory.reverse().map((item, index) => {
@@ -68,6 +70,7 @@ const Mydelivery = () => {
     });
   }, [user]);
 
+  //통계차트
   const renderStatistics = useCallback(() => {
     const myHistory = user.userData.history;
     let myStatistics = [];
@@ -120,7 +123,6 @@ const Mydelivery = () => {
     );
   }, [user]);
 
-  console.log(new Date());
   return (
     <WapperMydelivery>
       <Wrapper>
@@ -132,6 +134,7 @@ const Mydelivery = () => {
               email={user.user.name ? user.user.email : ''}
             />
           </Profile>
+
           <LogoutBtn onClick={onClickLogout}>로그아웃</LogoutBtn>
         </MydeliveryProfile>
 

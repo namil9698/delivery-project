@@ -1,20 +1,19 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import FoodData from './datas/food_data.json';
+import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { chageMyFoodList, deleteMyFood, addMyFood, subMyFood } from '../redux/reducers/simulation';
-import { orderSaveRequest } from '../redux/reducers/user';
+import { orderSaveRequest, RequsetOrderPopupClose } from '../redux/reducers/user';
 
 const Simulation = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { isLogin } = useSelector(state => state.user);
   const user = useSelector(state => state.user.user);
   const isPopup = useSelector(state => state.user.popup);
   const { history } = useSelector(state => state.user.userData);
   const myFoodList = useSelector(state => state.simulation.myFoodList);
-
-  //로그인 여부.
-  useEffect(() => {}, [isLogin]);
 
   ///선택한 종류
   const [focusCategory, setFocusCategory] = useState(0);
@@ -123,7 +122,7 @@ const Simulation = () => {
     }
     return myFoodList.map((food, index) => {
       return [...Array(food.qty)].map((item, key) => {
-        return <MyFood key={key} src={food.imgUrl} location={location[index]} row={key} />;
+        return <MyFood key={key} imgUrl={food.imgUrl} location={location[index]} row={key} />;
       });
     });
   }, [myFoodList]);
@@ -158,6 +157,7 @@ const Simulation = () => {
     [myFoodList]
   );
 
+  //수량에 따른 이미지 변화.
   const changePreviewImg = useCallback(() => {
     if (myFoodList.find(item => item.qty > 10)) {
       return '/images/preview3.png';
@@ -179,7 +179,7 @@ const Simulation = () => {
                 setFocusCategory(item.id);
               }}
               active={item.id === focusCategory}
-              src={item.iconUrl}
+              imgUrl={item.iconUrl}
             >
               {item.category}
             </CategoryItem>
@@ -214,6 +214,7 @@ const Simulation = () => {
                   orderRequest(myFoodList, user);
                 } else {
                   window.alert('로그인필요');
+                  router.push('/login').then(() => window.scrollTo(0, 0));
                 }
               }}
             >
@@ -223,7 +224,7 @@ const Simulation = () => {
         </Order>
         <Wrapper className="food_preview">
           <FoodList>{renderFoodList()}</FoodList>
-          <Preview src={changePreviewImg}>
+          <Preview imgUrl={changePreviewImg}>
             <PreviewMyFood>{renderMyFoodImage()}</PreviewMyFood>
           </Preview>
         </Wrapper>
@@ -231,8 +232,15 @@ const Simulation = () => {
       {isPopup ? (
         <SimulationPopup>
           <Popup>
-            <PopupImg src="/images/success.png" />
-            <PopupBtn>확인</PopupBtn>
+            <PopupImg imgUrl="/images/success.png" />
+            <PopupBtn
+              onClick={() => {
+                dispatch(RequsetOrderPopupClose());
+                router.push('/mydelivery').then(() => window.scrollTo(0, 0));
+              }}
+            >
+              확인
+            </PopupBtn>
           </Popup>
         </SimulationPopup>
       ) : (
@@ -300,7 +308,7 @@ const CategoryItem = styled.li`
   & ::before {
     content: '';
     display: block;
-    background-image: url(${props => props.src});
+    background-image: url(${props => props.imgUrl});
     background-size: 100% 100%;
     width: 50px;
     height: 50px;
@@ -553,7 +561,7 @@ const Preview = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${props => props.src});
+  background-image: url(${props => props.imgUrl});
   background-position: 10px 50px;
   background-size: contain;
   background-repeat: no-repeat;
@@ -591,7 +599,7 @@ const MyFood = styled.div`
   filter: brightness(calc(100% - ${props => props.location[1]}* 30%));
   z-index: ${props => props.location[2]};
 
-  background-image: url(${props => props.src});
+  background-image: url(${props => props.imgUrl});
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -645,7 +653,7 @@ const PopupImg = styled.div`
   left: 0;
   top: 0;
 
-  background-image: url(${props => props.src});
+  background-image: url(${props => props.imgUrl});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center top;

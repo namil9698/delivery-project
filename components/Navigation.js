@@ -29,7 +29,7 @@ const Navigation = () => {
 
 const NavigationBtn = styled.div`
   cursor: pointer;
-
+  display: none;
   position: absolute;
 
   width: 61px;
@@ -39,12 +39,12 @@ const NavigationBtn = styled.div`
 
   top: 115%;
 
-  display: flex;
   justify-content: center;
   align-items: center;
 
   @media all and (max-width: 1200px) {
     width: 40px;
+    display: flex;
   }
 `;
 
@@ -66,8 +66,6 @@ const NavigationItem = styled.div`
 
   margin-bottom: 30px;
 
-  padding: 15px;
-  width: 60px;
   height: 50%;
   cursor: pointer;
 
@@ -78,6 +76,10 @@ const NavigationItem = styled.div`
   transition: all 0.2s;
 
   background-color: #fff;
+
+  font-size: 20px;
+  padding: 20px;
+  width: 50px;
 
   &::after {
     content: '';
@@ -94,6 +96,9 @@ const NavigationItem = styled.div`
   }
 
   &:hover {
+    padding: 50px;
+    width: 100x;
+    font-size: 20px;
     transform: translateY(-0.3rem);
     box-shadow: 0 1rem 2rem black;
 
@@ -103,14 +108,18 @@ const NavigationItem = styled.div`
     }
   }
 
-  ${props =>
-    !props.toggle &&
-    css`
-      font-size: 0;
-      padding: 0;
-      width: 10px;
-      pointer-events: none;
-    `}
+  @media all and (max-width: 1200px) {
+    font-size: 0;
+    width: 10px;
+    ${props =>
+      props.toggle &&
+      css`
+        padding: 15px;
+        width: 60px;
+        font-size: 20px;
+        /* pointer-events: */
+      `}
+  }
 `;
 
 export default Navigation;
