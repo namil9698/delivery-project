@@ -15,12 +15,12 @@ const Mydelivery = () => {
     router.push('/').then(() => window.scrollTo(0, 0));
   }, []);
 
-  //로그인 여부.
-  useEffect(() => {
-    if (!isLogin) {
-      router.push('/').then(() => window.scrollTo(0, 0));
-    }
-  }, [isLogin]);
+  // //로그인 여부.
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     router.push('/').then(() => window.scrollTo(0, 0));
+  //   }
+  // }, [isLogin]);
 
   //Slider 세팅.
   const settings = {
