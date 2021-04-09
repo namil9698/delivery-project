@@ -109,6 +109,9 @@ const reducer = (state = initialState, action) => {
           email: '',
           uid: '',
         },
+        userData: {
+          history: [],
+        },
       };
     case LOG_OUT_FAILURE:
       return {
