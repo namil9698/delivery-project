@@ -104,7 +104,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLogin: false,
         lodding: false,
-        user: null,
+        user: {
+          name: '',
+          email: '',
+          uid: '',
+        },
       };
     case LOG_OUT_FAILURE:
       return {
