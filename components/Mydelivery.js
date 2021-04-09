@@ -39,6 +39,7 @@ const Mydelivery = () => {
     ],
   };
 
+  //가장최근에 주문했던 기록순으로 랜더.
   const renderMyHistory = useCallback(() => {
     const myHistory = user.userData.history;
     return myHistory.reverse().map((item, index) => {
@@ -69,6 +70,7 @@ const Mydelivery = () => {
     });
   }, [user]);
 
+  //통계차트
   const renderStatistics = useCallback(() => {
     const myHistory = user.userData.history;
     let myStatistics = [];
