@@ -16,7 +16,11 @@ const Simulation = () => {
   const myFoodList = useSelector(state => state.simulation.myFoodList);
 
   //로그인 여부.
-  useEffect(() => {}, [isLogin]);
+  useEffect(() => {
+    if (!isLogin) {
+      router.push('/login').then(() => window.scrollTo(0, 0));
+    }
+  }, [isLogin]);
 
   ///선택한 종류
   const [focusCategory, setFocusCategory] = useState(0);
@@ -160,6 +164,7 @@ const Simulation = () => {
     [myFoodList]
   );
 
+  //수량에 따른 이미지 변화.
   const changePreviewImg = useCallback(() => {
     if (myFoodList.find(item => item.qty > 10)) {
       return '/images/preview3.png';
