@@ -129,7 +129,7 @@ const Simulation = () => {
     }
     return myFoodList.map((food, index) => {
       return [...Array(food.qty)].map((item, key) => {
-        return <MyFood key={key} src={food.imgUrl} location={location[index]} row={key} />;
+        return <MyFood key={key} imgUrl={food.imgUrl} location={location[index]} row={key} />;
       });
     });
   }, [myFoodList]);
@@ -186,7 +186,7 @@ const Simulation = () => {
                 setFocusCategory(item.id);
               }}
               active={item.id === focusCategory}
-              src={item.iconUrl}
+              imgUrl={item.iconUrl}
             >
               {item.category}
             </CategoryItem>
@@ -231,7 +231,7 @@ const Simulation = () => {
         </Order>
         <Wrapper className="food_preview">
           <FoodList>{renderFoodList()}</FoodList>
-          <Preview src={changePreviewImg}>
+          <Preview imgUrl={changePreviewImg}>
             <PreviewMyFood>{renderMyFoodImage()}</PreviewMyFood>
           </Preview>
         </Wrapper>
@@ -239,7 +239,7 @@ const Simulation = () => {
       {isPopup ? (
         <SimulationPopup>
           <Popup>
-            <PopupImg src="/images/success.png" />
+            <PopupImg imgUrl="/images/success.png" />
             <PopupBtn
               onClick={() => {
                 dispatch(RequsetOrderPopupClose());
@@ -315,7 +315,7 @@ const CategoryItem = styled.li`
   & ::before {
     content: '';
     display: block;
-    background-image: url(${props => props.src});
+    background-image: url(${props => props.imgUrl});
     background-size: 100% 100%;
     width: 50px;
     height: 50px;
@@ -568,7 +568,7 @@ const Preview = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(${props => props.src});
+  background-image: url(${props => props.imgUrl});
   background-position: 10px 50px;
   background-size: contain;
   background-repeat: no-repeat;
@@ -606,7 +606,7 @@ const MyFood = styled.div`
   filter: brightness(calc(100% - ${props => props.location[1]}* 30%));
   z-index: ${props => props.location[2]};
 
-  background-image: url(${props => props.src});
+  background-image: url(${props => props.imgUrl});
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -660,7 +660,7 @@ const PopupImg = styled.div`
   left: 0;
   top: 0;
 
-  background-image: url(${props => props.src});
+  background-image: url(${props => props.imgUrl});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center top;
