@@ -113,8 +113,6 @@ const Mydelivery = () => {
       </ChartList>
     );
   }, [user]);
-
-  console.log(new Date());
   return (
     <WapperMydelivery>
       <Wrapper>
@@ -126,6 +124,7 @@ const Mydelivery = () => {
               email={user.user.name ? user.user.email : ''}
             />
           </Profile>
+
           <LogoutBtn onClick={onClickLogout}>로그아웃</LogoutBtn>
         </MydeliveryProfile>
 
