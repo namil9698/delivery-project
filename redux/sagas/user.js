@@ -41,9 +41,6 @@ function* logInAction(action) {
         uid: result.user.uid,
       },
     });
-    yield put({
-      type: RESET_MYFOODLIST,
-    });
   } catch (err) {
     console.log('err.message:', err.message);
     yield put({
