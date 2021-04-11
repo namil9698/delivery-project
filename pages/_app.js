@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import wrapper from '../redux/store/configureStore';
@@ -7,14 +7,14 @@ import '../public/styles/globals.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component }) => {
   return (
     <>
       <Head>
         <meta charSet="utf-8" />
         <title>MyDelivery</title>
       </Head>
-      <Component {...pageProps} />
+      <Component />
     </>
   );
 };
