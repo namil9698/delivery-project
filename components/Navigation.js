@@ -50,6 +50,7 @@ const NavigationBtn = styled.div`
 
 const NavigationWrapper = styled.div`
   position: fixed;
+  z-index: 999;
   top: 20%;
   left: 0;
 
@@ -110,15 +111,15 @@ const NavigationItem = styled.div`
 
   @media all and (max-width: 1200px) {
     padding: 0;
-    width: 0;
-    opacity: 0;
+    width: 20px;
+
     ${props =>
       props.toggle &&
       css`
         padding: 15px;
         width: 60px;
         font-size: 20px;
-        opacity: 1;
+
         /* pointer-events: */
       `}
   }
