@@ -10,17 +10,11 @@ const Mydelivery = () => {
   const router = useRouter();
   const user = useSelector(state => state.user);
   const { isLogin } = useSelector(state => state.user);
+
   const onClickLogout = useCallback(() => {
     dispatch(logoutRequest());
     router.push('/').then(() => window.scrollTo(0, 0));
   }, []);
-
-  // //로그인 여부.
-  // useEffect(() => {
-  //   if (!isLogin) {
-  //     router.push('/').then(() => window.scrollTo(0, 0));
-  //   }
-  // }, [isLogin]);
 
   //Slider 세팅.
   const settings = {
