@@ -10,17 +10,11 @@ const Mydelivery = () => {
   const router = useRouter();
   const user = useSelector(state => state.user);
   const { isLogin } = useSelector(state => state.user);
+
   const onClickLogout = useCallback(() => {
     dispatch(logoutRequest());
     router.push('/').then(() => window.scrollTo(0, 0));
   }, []);
-
-  // //로그인 여부.
-  // useEffect(() => {
-  //   if (!isLogin) {
-  //     router.push('/').then(() => window.scrollTo(0, 0));
-  //   }
-  // }, [isLogin]);
 
   //Slider 세팅.
   const settings = {
@@ -41,7 +35,7 @@ const Mydelivery = () => {
 
   //가장최근에 주문했던 기록순으로 랜더.
   const renderMyHistory = useCallback(() => {
-    const myHistory = user.userData.history;
+    const myHistory = [...user.userData.history];
     return myHistory.reverse().map((item, index) => {
       const onlyfood = { ...item };
       delete onlyfood.totalPrice;
@@ -121,7 +115,7 @@ const Mydelivery = () => {
         ))}
       </ChartList>
     );
-  }, [user]);
+  }, [user.userData.history]);
 
   return (
     <WapperMydelivery>

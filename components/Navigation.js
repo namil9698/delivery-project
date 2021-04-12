@@ -14,7 +14,7 @@ const Navigation = () => {
     <NavigationWrapper>
       <NavigationList>
         <NavigationBtn onClick={() => setNavToggle(!navToggle)}>
-          {navToggle ? <span>&#62;</span> : <span>&#60;</span>}
+          {navToggle ? <span>&#60;</span> : <span>&#62;</span>}
         </NavigationBtn>
         <NavigationItem toggle={navToggle} onClick={() => onClickMovePage('/simulation')}>
           메뉴고르기
@@ -50,6 +50,7 @@ const NavigationBtn = styled.div`
 
 const NavigationWrapper = styled.div`
   position: fixed;
+  z-index: 999;
   top: 20%;
   left: 0;
 
@@ -109,14 +110,16 @@ const NavigationItem = styled.div`
   }
 
   @media all and (max-width: 1200px) {
-    font-size: 0;
-    width: 10px;
+    padding: 0;
+    width: 20px;
+
     ${props =>
       props.toggle &&
       css`
         padding: 15px;
         width: 60px;
         font-size: 20px;
+
         /* pointer-events: */
       `}
   }
