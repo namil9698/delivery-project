@@ -29,3 +29,17 @@ React의 Next.js 프레임워크를 사용하여 비교적 최신기술을 활�
 - styled-components
 - webpack
 - Firebase
+- [github flow](https://guides.github.com/introduction/flow/)
+
+--------------------------------------------
+
+#### 구현 페이지(데스크탑 사이즈)  
+![데스크탑 사이즈](./d_home.png)
+![데스크탑 사이즈](./d_login.png)
+![데스크탑 사이즈](./d_si.png)
+![데스크탑 사이즈](./d_my.png)
+#### 구현 페이지(모바일 사이즈)
+![모바일 사이즈](./m_home.png)
+![모바일 사이즈](./m_login.png)
+![모바일 사이즈](./m_si.png)
+![모바일 사이즈](./m_my.png)
