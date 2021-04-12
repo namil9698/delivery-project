@@ -10,12 +10,12 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage/session';
 
 const loggerMiddleware = ({ dispatch, getState }) => next => action => {
-  console.log('action', action);
+  // console.log('action', action);
   return next(action);
 };
 
 const configureStore = context => {
-  console.log('context', context);
+  // console.log('context', context);
 
   const persistConfig = {
     key: 'root',

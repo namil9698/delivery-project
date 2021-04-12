@@ -73,7 +73,6 @@ function* orderSaveAction(action) {
     const memberType = user.email && user.name ? 'member' : 'non-member';
     const myDB = firebase.firestore();
     const docRef = myDB.collection(memberType).doc(user.uid);
-    console.log('docRef', docRef);
     if (action.data.history.length > 0) {
       yield call([docRef, docRef.update], {
         history: [
