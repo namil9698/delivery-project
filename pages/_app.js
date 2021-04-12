@@ -13,6 +13,7 @@ const App = ({ Component }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>MyDelivery</title>
+        <link rel="shortcut icon" href="favicon.ico" />
       </Head>
       <Component />
     </>
