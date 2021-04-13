@@ -58,7 +58,9 @@ const Simulation = () => {
   //선택 음식의 수량 증가
   const onAdd = useCallback(
     changeFood => {
-      if (myFoodList.find(item => item.qty > 14)) {
+      let totalQty = 0;
+      myFoodList.map(item => (totalQty += item.qty));
+      if (totalQty > 30) {
         alert('최대 수량입니다.');
       } else {
         dispatch(addMyFood(changeFood));
@@ -142,7 +144,7 @@ const Simulation = () => {
       const date = new Date();
       const orderDate = {
         year: date.getFullYear(),
-        month: date.getMonth(),
+        month: date.getMonth() + 1,
         date: date.getDate(),
         hour: date.getHours(),
         minute: date.getMinutes(),
@@ -159,9 +161,11 @@ const Simulation = () => {
 
   //수량에 따른 이미지 변화.
   const changePreviewImg = useCallback(() => {
-    if (myFoodList.find(item => item.qty > 10)) {
+    let totalQty = 0;
+    myFoodList.map(item => (totalQty += item.qty));
+    if (totalQty > 20) {
       return '/images/preview3.png';
-    } else if (myFoodList.find(item => item.qty > 5)) {
+    } else if (totalQty > 15) {
       return '/images/preview2.png';
     } else {
       return '/images/preview1.png';

@@ -54,8 +54,9 @@ const Mydelivery = () => {
       return (
         <HistoryMyFoodList key={index}>
           <p className="f_date">
-            {item.orderDate.year}년 {item.orderDate.month}월 {item.orderDate.date}일
-            {item.orderDate.hour}시 {item.orderDate.minute}분
+            {item.orderDate.year}년&nbsp;{item.orderDate.month}월&nbsp;{item.orderDate.date}일
+            &nbsp;
+            {item.orderDate.hour}시&nbsp;{item.orderDate.minute}분
           </p>
           {onlyfoodList}
           <p className="f_total_price">총:{item.totalPrice}원</p>
